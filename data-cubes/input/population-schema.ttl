@@ -1,0 +1,28 @@
+@prefix ns: <http://example.org/vocabulary#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ns:region a rdf:Property, qb:DimensionProperty ;
+  skos:prefLabel "Kraj"@cs, "Region"@en ;
+  rdfs:range xsd:string .
+
+ns:county a rdf:Property, qb:DimensionProperty ;
+  skos:prefLabel "Okres"@cs, "County"@en ;
+  rdfs:range xsd:string .
+
+ns:meanPopulation a rdf:Property, qb:MeasureProperty ;
+  skos:prefLabel "Střední stav obyvatel"@cs, "Mean population"@en ;
+  rdfs:range xsd:integer .
+
+ns:populationStructure a qb:DataStructureDefinition ;
+  skos:prefLabel "Structure of Czech population in 2021"@en ;
+  qb:component [ qb:dimension ns:region ; ] ;
+  qb:component [ qb:dimension ns:county ; ] ;
+  qb:component [ qb:measure ns:meanPopulation ; ] .
+
+ns:populationDataset a qb:DataSet ;
+  skos:prefLabel "Population dataset"@en ;
+  qb:structure ns:populationStructure .
