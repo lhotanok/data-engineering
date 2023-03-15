@@ -1,0 +1,42 @@
+export type CareProvidersGroup = {
+    region: string;
+    county: string;
+    fieldOfCare: string;
+    count: number;
+};
+
+export type CareProvider = {
+    MistoPoskytovaniId: string;
+    ZdravotnickeZarizeniId: string;
+    Kod: string;
+    NazevZarizeni: string;
+    DruhZarizeni: string;
+    Obec: string;
+    Psc: string;
+    Ulice: string;
+    CisloDomovniOrientacni: string;
+    Kraj: string;
+    KrajCode: string;
+    Okres: string;
+    OkresCode: string;
+    SpravniObvod: string;
+    PoskytovatelTelefon: string;
+    PoskytovatelFax: string;
+    PoskytovatelEmail: string;
+    PoskytovatelWeb: string;
+    Ico: string;
+    TypOsoby: string;
+    PravniFormaKod: string;
+    KrajCodeSidlo: string;
+    OkresCodeSidlo: string;
+    ObecSidlo: string;
+    PscSidlo: string;
+    UliceSidlo: string;
+    CisloDomovniOrientacniSidlo: string;
+    OborPece: string;
+    FormaPece: string;
+    DruhPece: string;
+    OdbornyZastupce: string;
+    Lat: string;
+    Lng: string;
+};

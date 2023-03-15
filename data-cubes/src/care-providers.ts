@@ -1,14 +1,22 @@
 import * as $rdf from 'rdflib';
-import { readFileSync } from 'fs';
+import { unraw } from 'unraw';
+import { readFileSync, writeFileSync } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import * as csv from 'csvtojson';
+import { CareProvider, CareProvidersGroup } from './types';
 
-const BASE_URI = 'http://example.org/vocabulary#';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const BASE_URI = 'http://example.org/ontology#';
 
 const NS = $rdf.Namespace(BASE_URI);
+const QB = $rdf.Namespace('http://purl.org/linked-data/cube#');
+const RDF = $rdf.Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#');
+const XSD = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
 
-const main = () => {
-    console.log("Hello");
-    const store  = $rdf.graph();
-
+const loadSchemaIntoStore = (store: $rdf.Store) => {
     const careProvidersSchema = readFileSync(
         `${__dirname}/../input/care-providers-schema.ttl`,
         { encoding: 'utf-8' },
@@ -16,7 +24,75 @@ const main = () => {
 
     $rdf.parse(careProvidersSchema, store, BASE_URI, 'text/turtle');
 
-    // console.log(store.toNQ());
+    console.log(`Loaded RDF schema for care providers data cube`);
 };
 
-main();
+const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[] => {
+    const careProviderGroups:  Record<string, CareProvidersGroup> = {};
+
+    console.log(`Loaded ${careProviders.length} care provider records from CSV file 'care-providers-registry.csv'`);
+
+    careProviders.forEach((provider) => {
+        const key = `${provider.KrajCode}-${provider.OkresCode}-${provider.OborPece}`.toLowerCase();
+
+        if (careProviderGroups[key]) {
+            careProviderGroups[key].count++;
+            return;
+        }
+
+        careProviderGroups[key] = {
+            region: provider.KrajCode,
+            county: provider.OkresCode,
+            // use explicit term 'unknown' for empty field of care
+            fieldOfCare: provider.OborPece || "neznámé",
+            count: 1,
+        };
+    });
+
+    return Object.values(careProviderGroups);
+};
+
+const addObservations = (store: $rdf.Store, careProviderGroups: CareProvidersGroup[]) => {
+    console.log(`Inserting ${careProviderGroups.length} observations into care providers data cube`);
+
+    careProviderGroups.forEach((group, i) => {
+        const observationId = String(i + 1).padStart(6, '0');
+        const observation = store.sym(`http://example.org/resources/observation-${observationId}`);
+
+        store.add(observation, RDF('type'), QB('Observation'));
+        store.add(observation, QB('dataSet'), NS('careProvidersDataset'));
+        store.add(observation, NS('region'), group.region);
+        store.add(observation, NS('county'), group.county);
+        store.add(observation, NS('fieldOfCare'), $rdf.literal(group.fieldOfCare, 'cs'));
+        store.add(observation, NS('careProvidersCount'), $rdf.literal(group.count.toString(), XSD('integer')));
+    });
+};
+
+const main = async () => {
+    const store  = $rdf.graph();
+
+    loadSchemaIntoStore(store);
+
+    const careProviders = await csv.default()
+        .fromFile(`${__dirname}/../input/care-providers-registry.csv`);
+
+    const careProviderGroups = countCareProviders(careProviders);
+    writeFileSync(
+        `${__dirname}/../temp/care-provider-groups.json`,
+        JSON.stringify(careProviderGroups, null, 2),
+    );
+
+    addObservations(store, careProviderGroups);
+
+    writeFileSync(
+        `${__dirname}/../output/care-providers.ttl`,
+        unraw(
+            $rdf.serialize(null, store, '', 'text/turtle')
+        ),
+    );
+
+    store.namespaces.ns = BASE_URI;
+    console.log(store.namespaces);
+};
+
+await main();
