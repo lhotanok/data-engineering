@@ -3,7 +3,7 @@ import { unraw } from 'unraw';
 import { writeFileSync } from 'fs';
 import * as csv from 'csvtojson';
 import { loadSchemaIntoStore } from './schema.js';
-import { RDF, QB, NS, XSD, __dirname, MEAN_POPULATION_VUK, COUNTY_VUZEMI_CIS } from './constants.js';
+import { RDF, QB, NS, XSD, __dirname, MEAN_POPULATION_VUK, COUNTY_VUZEMI_CIS, DBO } from './constants.js';
 import { CountyCodeRecord, PopulationRecord } from './types.js';
 
 const countyCodesToNUTS = async () : Promise<Record<string, string>> => {
@@ -34,10 +34,19 @@ const addObservations = (store: $rdf.Store, populationRecords: PopulationRecord[
         const countyCode = record.vuzemi_kod;
         const regionCode = countyCode.substring(0, record.vuzemi_kod.length - 1);
 
+        const region = store.sym(`http://example.org/resources/${regionCode}`);
+        store.add(region, RDF('type'), NS('Region'));
+        store.add(region, DBO('nutsCode'), regionCode);
+
+        const county = store.sym(`http://example.org/resources/${countyCode}`);
+        store.add(county, RDF('type'), NS('County'));
+        store.add(county, DBO('nutsCode'), countyCode);
+        if (record.vuzemi_txt) store.add(county, DBO('originalName'), $rdf.literal(record.vuzemi_txt, 'cs'));
+
         store.add(observation, RDF('type'), QB('Observation'));
         store.add(observation, QB('dataSet'), NS('populationDataset'));
-        store.add(observation, NS('region'), regionCode);
-        store.add(observation, NS('county'), countyCode);
+        store.add(observation, NS('region'), region);
+        store.add(observation, NS('county'), county);
         store.add(observation, NS('meanPopulation'), $rdf.literal(record.hodnota, XSD('integer')));
     });
 };

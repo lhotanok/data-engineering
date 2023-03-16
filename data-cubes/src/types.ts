@@ -1,6 +1,8 @@
 export type CareProvidersGroup = {
     region: string;
+    regionCode: string;
     county: string;
+    countyCode: string;
     fieldOfCare: string;
     count: number;
 };

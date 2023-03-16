@@ -5,20 +5,29 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
 @prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#> .
 @prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+
+ont:Region a rdfs:Class ;
+  skos:prefLabel "Kraj"@cs, "Region"@en ;
+  rdfs:subClassOf dbo:Region .
+
+ont:County a rdfs:Class ;
+  skos:prefLabel "Okres"@cs, "County"@en ;
+  rdfs:subClassOf dbo:Region .
 
 ont:region a rdf:Property, qb:DimensionProperty ;
   skos:prefLabel "Kraj"@cs, "Region"@en ;
   rdfs:subPropertyOf sdmx-dimension:refArea ;
   qb:concept sdmx-concept:refArea ;
-  rdfs:range xsd:string .
+  rdfs:range ont:Region .
 
 ont:county a rdf:Property, qb:DimensionProperty ;
   skos:prefLabel "Okres"@cs, "County"@en ;
   rdfs:subPropertyOf sdmx-dimension:refArea ;
   qb:concept sdmx-concept:refArea ;
-  rdfs:range xsd:string .
+  rdfs:range ont:County .
 
 <https://kristyna.lhotanova.com/#me> a foaf:Person ;
   foaf:givenName "Kristýna"@cs ;
