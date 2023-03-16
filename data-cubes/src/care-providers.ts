@@ -90,9 +90,6 @@ const main = async () => {
             $rdf.serialize(null, store, '', 'text/turtle')
         ),
     );
-
-    store.namespaces.ns = BASE_URI;
-    console.log(store.namespaces);
 };
 
 await main();

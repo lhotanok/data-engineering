@@ -4,13 +4,22 @@
 @prefix qb: <http://purl.org/linked-data/cube#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#> .
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#> .
 
 ont:region a rdf:Property, qb:DimensionProperty ;
   skos:prefLabel "Kraj"@cs, "Region"@en ;
+  rdfs:subPropertyOf sdmx-dimension:refArea ;
+  qb:concept sdmx-concept:refArea ;
   rdfs:range xsd:string .
 
 ont:county a rdf:Property, qb:DimensionProperty ;
   skos:prefLabel "Okres"@cs, "County"@en ;
+  rdfs:subPropertyOf sdmx-dimension:refArea ;
+  qb:concept sdmx-concept:refArea ;
   rdfs:range xsd:string .
 
 ont:fieldOfCare a rdf:Property, qb:DimensionProperty ;
@@ -19,6 +28,7 @@ ont:fieldOfCare a rdf:Property, qb:DimensionProperty ;
 
 ont:careProvidersCount a rdf:Property, qb:MeasureProperty ;
   skos:prefLabel "Počet poskytovatelů péče"@cs, "Number of care providers"@en ;
+  rdfs:subPropertyOf sdmx-measure:obsValue ;
   rdfs:range xsd:integer .
 
 ont:careProvidersStructure a qb:DataStructureDefinition ;
@@ -28,6 +38,19 @@ ont:careProvidersStructure a qb:DataStructureDefinition ;
   qb:component [ qb:dimension ont:fieldOfCare ; ] ;
   qb:component [ qb:measure ont:careProvidersCount ; ] .
 
-ont:careProvidersDataset a qb:DataSet ;
-  skos:prefLabel "Care providers dataset"@en ;
-  qb:structure ont:careProvidersStructure .
+<https://kristyna.lhotanova.com/#me> a foaf:Person ;
+    foaf:givenName "Kristýna"@cs ;
+    foaf:familyName "Lhoťanová"@cs ;
+    foaf:homepage <https://github.com/lhotanok> .
+
+ont:careProvidersDataset a qb:DataSet, dcat:Dataset ;
+  skos:prefLabel "Poskytovatelé zdravotních služeb"@cs, "Care providers"@en ;
+  qb:structure ont:careProvidersStructure ;
+  dcat:title "Poskytovatelé zdravotních služeb"@cs, "Care providers"@en ;
+  dcat:keyword "zdravotní péče"@cs, "poskytovatel"@cs, "health care"@en, "provider"@en ;
+  dcat:creator <https://kristyna.lhotanova.com/#me> ;
+  dcat:issued "2023-03-16"^^xsd:date ;
+  dcat:modified "2023-03-16"^^xsd:date ;
+  dcat:publisher <https://kristyna.lhotanova.com/#me> ;
+  dcat:language <http://id.loc.gov/vocabulary/iso639-1/cs>  ;
+  dcat:license <https://creativecommons.org/licenses/by/4.0/> .

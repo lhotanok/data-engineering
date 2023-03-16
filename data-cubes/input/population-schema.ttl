@@ -4,17 +4,25 @@
 @prefix qb: <http://purl.org/linked-data/cube#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#> .
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#> .
 
 ont:region a rdf:Property, qb:DimensionProperty ;
   skos:prefLabel "Kraj"@cs, "Region"@en ;
+  rdfs:subPropertyOf sdmx-dimension:refArea ;
+  qb:concept sdmx-concept:refArea ;
   rdfs:range xsd:string .
 
 ont:county a rdf:Property, qb:DimensionProperty ;
   skos:prefLabel "Okres"@cs, "County"@en ;
+  rdfs:subPropertyOf sdmx-dimension:refArea ;
+  qb:concept sdmx-concept:refArea ;
   rdfs:range xsd:string .
 
 ont:meanPopulation a rdf:Property, qb:MeasureProperty ;
   skos:prefLabel "Střední stav obyvatel"@cs, "Mean population"@en ;
+  rdfs:subPropertyOf sdmx-measure:obsValue ;
   rdfs:range xsd:integer .
 
 ont:populationStructure a qb:DataStructureDefinition ;
@@ -24,5 +32,5 @@ ont:populationStructure a qb:DataStructureDefinition ;
   qb:component [ qb:measure ont:meanPopulation ; ] .
 
 ont:populationDataset a qb:DataSet ;
-  skos:prefLabel "Population dataset"@en ;
+  skos:prefLabel "Obyvatelé okresy 2021"@cs, "Population 2021"@en ;
   qb:structure ont:populationStructure .
