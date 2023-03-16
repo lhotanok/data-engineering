@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node --esm src/care-providers.ts"
+    "start": "ts-node --esm src/care-providers.ts && ts-node --esm src/population.ts"
   },
   "keywords": [],
   "author": "",

@@ -1,33 +1,10 @@
 import * as $rdf from 'rdflib';
 import { unraw } from 'unraw';
-import { readFileSync, writeFileSync } from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { writeFileSync } from 'fs';
 import * as csv from 'csvtojson';
-import { CareProvider, CareProvidersGroup } from './types';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const BASE_URI = 'http://example.org/ontology#';
-
-const NS = $rdf.Namespace(BASE_URI);
-const QB = $rdf.Namespace('http://purl.org/linked-data/cube#');
-const RDF = $rdf.Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#');
-const XSD = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
-
-const loadSchemaIntoStore = (store: $rdf.Store, schemaPath: string) => {
-    const careProvidersSchema = readFileSync(
-        schemaPath,
-        { encoding: 'utf-8' },
-    );
-
-    $rdf.parse(careProvidersSchema, store, BASE_URI, 'text/turtle');
-
-    const schemaFilenameSplits = schemaPath.split('/');
-    const schemaFilename = schemaFilenameSplits[schemaFilenameSplits.length - 1];
-    console.log(`Loaded RDF schema for care providers data cube from '${schemaFilename}'`);
-};
+import { CareProvider, CareProvidersGroup } from './types.js';
+import { loadSchemaIntoStore } from './schema.js';
+import { RDF, QB, NS, XSD, __dirname, UNKNOWN_TEXT } from './constants.js';
 
 const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[] => {
     const careProviderGroups:  Record<string, CareProvidersGroup> = {};
@@ -46,7 +23,7 @@ const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[
             region: provider.KrajCode,
             county: provider.OkresCode,
             // use explicit term 'unknown' for empty field of care
-            fieldOfCare: provider.OborPece || "neznámé",
+            fieldOfCare: provider.OborPece || UNKNOWN_TEXT,
             count: 1,
         };
     });
@@ -59,7 +36,7 @@ const addObservations = (store: $rdf.Store, careProviderGroups: CareProvidersGro
 
     careProviderGroups.forEach((group, i) => {
         const observationId = String(i + 1).padStart(6, '0');
-        const observation = store.sym(`http://example.org/resources/observation-${observationId}`);
+        const observation = store.sym(`http://example.org/resources/care-providers/observation-${observationId}`);
 
         store.add(observation, RDF('type'), QB('Observation'));
         store.add(observation, QB('dataSet'), NS('careProvidersDataset'));
@@ -76,7 +53,7 @@ const main = async () => {
     loadSchemaIntoStore(store, `${__dirname}/../input/shared-schema.ttl`);
     loadSchemaIntoStore(store, `${__dirname}/../input/care-providers-schema.ttl`);
 
-    const careProviders = await csv.default()
+    const careProviders : CareProvider[] = await csv.default()
         .fromFile(`${__dirname}/../input/care-providers-registry.csv`);
 
     const careProviderGroups = countCareProviders(careProviders);
