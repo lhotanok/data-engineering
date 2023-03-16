@@ -6,6 +6,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#> .
+@prefix lang: <http://id.loc.gov/vocabulary/iso639-1/> .
 
 ont:fieldOfCare a rdf:Property, qb:DimensionProperty ;
   skos:prefLabel "Obor péče"@cs, "Field of care"@en ;
@@ -32,5 +33,5 @@ ont:careProvidersDataset a qb:DataSet, dcat:Dataset ;
   dcat:issued "2023-03-16"^^xsd:date ;
   dcat:modified "2023-03-16"^^xsd:date ;
   dcat:publisher <https://kristyna.lhotanova.com/#me> ;
-  dcat:language <http://id.loc.gov/vocabulary/iso639-1/cs>  ;
+  dcat:language lang:cs  ;
   dcat:license <https://creativecommons.org/licenses/by/4.0/> .

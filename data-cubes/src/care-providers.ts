@@ -36,7 +36,7 @@ const addObservations = (store: $rdf.Store, careProviderGroups: CareProvidersGro
 
     careProviderGroups.forEach((group, i) => {
         const observationId = String(i + 1).padStart(6, '0');
-        const observation = store.sym(`http://example.org/resources/care-providers/observation-${observationId}`);
+        const observation = store.sym(`http://example.org/resources/health-care/observation-${observationId}`);
 
         store.add(observation, RDF('type'), QB('Observation'));
         store.add(observation, QB('dataSet'), NS('careProvidersDataset'));
