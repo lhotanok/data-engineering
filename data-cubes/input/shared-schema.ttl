@@ -1,0 +1,26 @@
+@prefix ont: <http://example.org/ontology#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#> .
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+
+ont:region a rdf:Property, qb:DimensionProperty ;
+  skos:prefLabel "Kraj"@cs, "Region"@en ;
+  rdfs:subPropertyOf sdmx-dimension:refArea ;
+  qb:concept sdmx-concept:refArea ;
+  rdfs:range xsd:string .
+
+ont:county a rdf:Property, qb:DimensionProperty ;
+  skos:prefLabel "Okres"@cs, "County"@en ;
+  rdfs:subPropertyOf sdmx-dimension:refArea ;
+  qb:concept sdmx-concept:refArea ;
+  rdfs:range xsd:string .
+
+<https://kristyna.lhotanova.com/#me> a foaf:Person ;
+  foaf:givenName "Kristýna"@cs ;
+  foaf:familyName "Lhoťanová"@cs ;
+  foaf:homepage <https://github.com/lhotanok> .

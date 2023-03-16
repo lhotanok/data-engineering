@@ -16,15 +16,17 @@ const QB = $rdf.Namespace('http://purl.org/linked-data/cube#');
 const RDF = $rdf.Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#');
 const XSD = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
 
-const loadSchemaIntoStore = (store: $rdf.Store) => {
+const loadSchemaIntoStore = (store: $rdf.Store, schemaPath: string) => {
     const careProvidersSchema = readFileSync(
-        `${__dirname}/../input/care-providers-schema.ttl`,
+        schemaPath,
         { encoding: 'utf-8' },
     );
 
     $rdf.parse(careProvidersSchema, store, BASE_URI, 'text/turtle');
 
-    console.log(`Loaded RDF schema for care providers data cube`);
+    const schemaFilenameSplits = schemaPath.split('/');
+    const schemaFilename = schemaFilenameSplits[schemaFilenameSplits.length - 1];
+    console.log(`Loaded RDF schema for care providers data cube from '${schemaFilename}'`);
 };
 
 const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[] => {
@@ -71,7 +73,8 @@ const addObservations = (store: $rdf.Store, careProviderGroups: CareProvidersGro
 const main = async () => {
     const store  = $rdf.graph();
 
-    loadSchemaIntoStore(store);
+    loadSchemaIntoStore(store, `${__dirname}/../input/shared-schema.ttl`);
+    loadSchemaIntoStore(store, `${__dirname}/../input/care-providers-schema.ttl`);
 
     const careProviders = await csv.default()
         .fromFile(`${__dirname}/../input/care-providers-registry.csv`);

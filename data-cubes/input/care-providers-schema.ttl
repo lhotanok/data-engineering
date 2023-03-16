@@ -5,22 +5,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#> .
-@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
 @prefix sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#> .
-
-ont:region a rdf:Property, qb:DimensionProperty ;
-  skos:prefLabel "Kraj"@cs, "Region"@en ;
-  rdfs:subPropertyOf sdmx-dimension:refArea ;
-  qb:concept sdmx-concept:refArea ;
-  rdfs:range xsd:string .
-
-ont:county a rdf:Property, qb:DimensionProperty ;
-  skos:prefLabel "Okres"@cs, "County"@en ;
-  rdfs:subPropertyOf sdmx-dimension:refArea ;
-  qb:concept sdmx-concept:refArea ;
-  rdfs:range xsd:string .
 
 ont:fieldOfCare a rdf:Property, qb:DimensionProperty ;
   skos:prefLabel "Obor péče"@cs, "Field of care"@en ;
@@ -37,11 +22,6 @@ ont:careProvidersStructure a qb:DataStructureDefinition ;
   qb:component [ qb:dimension ont:county ; ] ;
   qb:component [ qb:dimension ont:fieldOfCare ; ] ;
   qb:component [ qb:measure ont:careProvidersCount ; ] .
-
-<https://kristyna.lhotanova.com/#me> a foaf:Person ;
-    foaf:givenName "Kristýna"@cs ;
-    foaf:familyName "Lhoťanová"@cs ;
-    foaf:homepage <https://github.com/lhotanok> .
 
 ont:careProvidersDataset a qb:DataSet, dcat:Dataset ;
   skos:prefLabel "Poskytovatelé zdravotních služeb"@cs, "Care providers"@en ;
