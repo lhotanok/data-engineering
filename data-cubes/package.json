@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node --esm src/care-providers.ts && ts-node --esm src/population.ts"
+    "start": "ts-node --esm src/care-providers.ts && ts-node --esm src/population.ts && ts-node --esm src/constraints-validation.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,7 @@
   "dependencies": {
     "csvtojson": "^2.0.10",
     "rdflib": "^2.2.30",
+    "rdfstore": "^0.9.17",
     "remove-accents": "^0.4.4",
     "unraw": "^2.0.1"
   }

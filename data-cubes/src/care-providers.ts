@@ -4,7 +4,7 @@ import { writeFileSync } from 'fs';
 import * as csv from 'csvtojson';
 import removeAccents from 'remove-accents';
 import { CareProvider, CareProvidersGroup } from './types.js';
-import { loadSchemaIntoStore } from './schema.js';
+import { loadRdfIntoStore } from './rdf-store.js';
 import { RDF, QB, NS, XSD, __dirname, UNKNOWN_TEXT, DBO } from './constants.js';
 
 const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[] => {
@@ -71,8 +71,8 @@ const addObservations = (store: $rdf.Store, careProviderGroups: CareProvidersGro
 const main = async () => {
     const store  = $rdf.graph();
 
-    loadSchemaIntoStore(store, `${__dirname}/../input/shared-schema.ttl`);
-    loadSchemaIntoStore(store, `${__dirname}/../input/care-providers-schema.ttl`);
+    loadRdfIntoStore(store, `${__dirname}/../input/shared-schema.ttl`);
+    loadRdfIntoStore(store, `${__dirname}/../input/care-providers-schema.ttl`);
 
     const careProviders : CareProvider[] = await csv.default()
         .fromFile(`${__dirname}/../input/care-providers-registry.csv`);

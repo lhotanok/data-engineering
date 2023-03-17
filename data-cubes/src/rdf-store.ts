@@ -2,15 +2,15 @@ import * as $rdf from 'rdflib';
 import { readFileSync } from 'fs';
 import { BASE_URI } from './constants.js';
 
-export const loadSchemaIntoStore = (store: $rdf.Store, schemaPath: string) => {
+export const loadRdfIntoStore = (store: $rdf.Store, rdfPath: string) => {
     const careProvidersSchema = readFileSync(
-        schemaPath,
+        rdfPath,
         { encoding: 'utf-8' },
     );
 
     $rdf.parse(careProvidersSchema, store, BASE_URI, 'text/turtle');
 
-    const schemaFilenameSplits = schemaPath.split('/');
+    const schemaFilenameSplits = rdfPath.split('/');
     const schemaFilename = schemaFilenameSplits[schemaFilenameSplits.length - 1];
     console.log(`Loaded RDF schema for data cube from '${schemaFilename}'`);
 };

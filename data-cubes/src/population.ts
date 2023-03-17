@@ -2,7 +2,7 @@ import * as $rdf from 'rdflib';
 import { unraw } from 'unraw';
 import { writeFileSync } from 'fs';
 import * as csv from 'csvtojson';
-import { loadSchemaIntoStore } from './schema.js';
+import { loadRdfIntoStore } from './rdf-store.js';
 import { RDF, QB, NS, XSD, __dirname, MEAN_POPULATION_VUK, COUNTY_VUZEMI_CIS, DBO } from './constants.js';
 import { CountyCodeRecord, PopulationRecord } from './types.js';
 
@@ -54,8 +54,8 @@ const addObservations = (store: $rdf.Store, populationRecords: PopulationRecord[
 const main = async () => {
     const store  = $rdf.graph();
 
-    loadSchemaIntoStore(store, `${__dirname}/../input/shared-schema.ttl`);
-    loadSchemaIntoStore(store, `${__dirname}/../input/population-schema.ttl`);
+    loadRdfIntoStore(store, `${__dirname}/../input/shared-schema.ttl`);
+    loadRdfIntoStore(store, `${__dirname}/../input/population-schema.ttl`);
 
     const populationRecords: PopulationRecord[] = await csv.default()
         .fromFile(`${__dirname}/../input/population-cs-2021.csv`);
