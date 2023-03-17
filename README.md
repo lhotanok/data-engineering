@@ -31,10 +31,16 @@ npm ci
 
 #### Run
 
-All scripts can be launched from `data-cubes` directory using a command:
+Scripts for data cubes generation can be launched from `data-cubes` directory using a command:
 
 ```bash
 npm start
+```
+
+To generate both data cubes and test their integrity constraints, run the following:
+
+```bash
+npm test
 ```
 
 ### Files
