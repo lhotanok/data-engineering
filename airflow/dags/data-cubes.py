@@ -3,7 +3,6 @@ from airflow.settings import DAGS_FOLDER
 
 from airflow import DAG
 from airflow.operators.bash import BashOperator
-from airflow.operators.python import PythonOperator
 
 scripts_folder = f"{DAGS_FOLDER}/scripts"
 input_folder = f"{DAGS_FOLDER}/input"
@@ -35,21 +34,21 @@ with DAG(
         bash_command=f"wget {care_providers_dataset_url} -O care-providers-registry.csv",
         cwd=input_folder
     )
-    task01.doc_md = """This task downloads 'Health care providers' CSV dataset and stores it into {DAGS_FOLDER}/input."""
+    task01.doc_md = """This task downloads 'Health care providers' CSV dataset and stores it into `{DAGS_FOLDER}/input`."""
 
     task02 = BashOperator(
         task_id="population_2021_download",
         bash_command=f"wget {population_dataset_url} -O population-cs-2021.csv",
         cwd=input_folder
     )
-    task02.doc_md = """This task downloads 'Population in 2021' CSV dataset and stores it into {DAGS_FOLDER}/input."""
+    task02.doc_md = """This task downloads 'Population in 2021' CSV dataset and stores it into `{DAGS_FOLDER}/input`."""
 
     task03 = BashOperator(
         task_id="county_codes_download",
         bash_command=f"wget --no-check-certificate {county_codes_dataset_url} -O county-codes.csv",
         cwd=input_folder
     )
-    task03.doc_md = """This task downloads 'County codes' CSV dataset and stores it into {DAGS_FOLDER}/input."""
+    task03.doc_md = """This task downloads 'County codes' CSV dataset and stores it into `{DAGS_FOLDER}/input`."""
 
     task04 = BashOperator(
         task_id="care_providers_data_cube",
@@ -57,7 +56,7 @@ with DAG(
         cwd=scripts_folder
     )
 
-    task04.doc_md = """This task generates 'Care providers' data cube and stores it into the output directory."""
+    task04.doc_md = """This task generates `health_care.ttl` data cube and stores it into the output directory."""
 
     task05 = BashOperator(
         task_id="population_data_cube",
@@ -65,7 +64,17 @@ with DAG(
         cwd=scripts_folder
     )
 
-    task05.doc_md = """This task generates 'Population' data cube and stores it into the output directory."""
+    task05.doc_md = """This task generates `population.ttl` data cube and stores it into the output directory."""
+
+    task06 = BashOperator(
+        task_id="integrity_constraints_validation",
+        bash_command="ts-node --esm constraints-validation.ts",
+        cwd=scripts_folder
+    )
+
+    task06.doc_md = """This task validates integrity constraints against the generated RDF datasets `health_care.ttl` and `population.ttl`."""
 
     task04.set_upstream([task01, task02, task03])
     task05.set_upstream([task01, task02, task03])
+
+    task06.set_upstream([task04, task05])
