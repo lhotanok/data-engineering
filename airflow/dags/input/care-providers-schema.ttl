@@ -1,0 +1,37 @@
+@prefix ont: <http://example.org/ontology#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#> .
+@prefix lang: <http://id.loc.gov/vocabulary/iso639-1/> .
+
+ont:fieldOfCare a rdf:Property, qb:DimensionProperty ;
+  skos:prefLabel "Obor péče"@cs, "Field of care"@en ;
+  rdfs:range rdf:langString .
+
+ont:careProvidersCount a rdf:Property, qb:MeasureProperty ;
+  skos:prefLabel "Počet poskytovatelů péče"@cs, "Number of care providers"@en ;
+  rdfs:subPropertyOf sdmx-measure:obsValue ;
+  rdfs:range xsd:integer .
+
+ont:careProvidersStructure a qb:DataStructureDefinition ;
+  skos:prefLabel "Care providers structure"@en ;
+  qb:component [ qb:dimension ont:region ; ] ;
+  qb:component [ qb:dimension ont:county ; ] ;
+  qb:component [ qb:dimension ont:fieldOfCare ; ] ;
+  qb:component [ qb:measure ont:careProvidersCount ; ] .
+
+ont:careProvidersDataset a qb:DataSet, dcat:Dataset ;
+  skos:prefLabel "Poskytovatelé zdravotních služeb"@cs, "Care providers"@en ;
+  qb:structure ont:careProvidersStructure ;
+  dcat:title "Poskytovatelé zdravotních služeb"@cs, "Care providers"@en ;
+  dcat:keyword "zdravotní péče"@cs, "poskytovatel"@cs, "health care"@en, "provider"@en ;
+  dcat:creator <https://kristyna.lhotanova.com/#me> ;
+  dcat:issued "2023-03-16"^^xsd:date ;
+  dcat:modified "2023-03-16"^^xsd:date ;
+  dcat:publisher <https://kristyna.lhotanova.com/#me> ;
+  dcat:language lang:cs  ;
+  dcat:license <https://creativecommons.org/licenses/by/4.0/> .
