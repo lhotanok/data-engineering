@@ -2,3 +2,4 @@ node_modules/
 output/
 temp/
 venv
+__pycache__
