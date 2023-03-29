@@ -1,18 +1,21 @@
 import { readdirSync, readFileSync, writeFileSync } from 'fs';
+import path from 'path';
 import * as $rdf from 'rdflib';
 import * as rdfstore from 'rdfstore';
 import { unraw } from 'unraw';
-import { __dirname } from './constants.js';
+import { OUTPUT_DIR, __dirname } from './constants.js';
 import { loadRdfIntoStore } from './rdf-store.js';
 
 const mergeDatasets = () => {
     const store  = $rdf.graph();
 
-    loadRdfIntoStore(store, `${__dirname}/../output/health_care.ttl`);
-    loadRdfIntoStore(store, `${__dirname}/../output/population.ttl`);
+    console.log(`Merging 'health_care.ttl' with 'population.ttl' and saving to: ${OUTPUT_DIR}`);
+
+    loadRdfIntoStore(store, path.join(OUTPUT_DIR, 'health_care.ttl'));
+    loadRdfIntoStore(store, path.join(OUTPUT_DIR, 'population.ttl'));
 
     writeFileSync(
-        `${__dirname}/../output/datasets.ttl`,
+        path.join(OUTPUT_DIR, 'datasets.ttl'),
         unraw(
             $rdf.serialize(null, store, '', 'text/turtle'),
         ),
@@ -57,7 +60,7 @@ const main = async () => {
 
     new rdfstore.Store((_err, store) => {
         const datasets = readFileSync(
-            `${__dirname}/../output/datasets.ttl`,
+            path.join(OUTPUT_DIR, 'datasets.ttl'),
             { encoding: 'utf-8' },
         );
 

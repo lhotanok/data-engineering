@@ -3,9 +3,10 @@ import { unraw } from 'unraw';
 import { writeFileSync } from 'fs';
 import * as csv from 'csvtojson';
 import { loadRdfIntoStore } from './rdf-store.js';
-import { RDF, QB, NS, XSD, __dirname, MEAN_POPULATION_VUK, COUNTY_VUZEMI_CIS, DBO } from './constants.js';
+import { RDF, QB, NS, XSD, __dirname, MEAN_POPULATION_VUK, COUNTY_VUZEMI_CIS, DBO, OUTPUT_DIR } from './constants.js';
 import { CountyCodeRecord, PopulationRecord } from './types.js';
 import { initializeDirectories } from './utils.js';
+import path from 'path';
 
 const countyCodesToNUTS = async () : Promise<Record<string, string>> => {
     const countyRecords: CountyCodeRecord[] = await csv.default()
@@ -88,8 +89,11 @@ const main = async () => {
         JSON.stringify(normalizedMeanPopulation, null, 2),
     );
 
+    const outputPath = path.join(OUTPUT_DIR, 'population.ttl');
+    console.log(`Saving results to: ${outputPath}`);
+
     writeFileSync(
-        `${__dirname}/../output/population.ttl`,
+        outputPath,
         unraw(
             $rdf.serialize(null, store, '', 'text/turtle')
         ),

@@ -5,8 +5,9 @@ import * as csv from 'csvtojson';
 import removeAccents from 'remove-accents';
 import { CareProvider, CareProvidersGroup } from './types.js';
 import { loadRdfIntoStore } from './rdf-store.js';
-import { RDF, QB, NS, XSD, __dirname, UNKNOWN_TEXT, DBO } from './constants.js';
+import { RDF, QB, NS, XSD, __dirname, UNKNOWN_TEXT, DBO, OUTPUT_DIR } from './constants.js';
 import { initializeDirectories } from './utils.js';
+import path from 'path';
 
 const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[] => {
     const careProviderGroups:  Record<string, CareProvidersGroup> = {};
@@ -88,8 +89,11 @@ const main = async () => {
 
     addObservations(store, careProviderGroups);
 
+    const outputPath = path.join(OUTPUT_DIR, 'health_care.ttl');
+    console.log(`Saving results to: ${outputPath}`);
+
     writeFileSync(
-        `${__dirname}/../output/health_care.ttl`,
+        outputPath,
         unraw(
             $rdf.serialize(null, store, '', 'text/turtle')
         ),

@@ -11,13 +11,14 @@ care_providers_dataset_url = "https://data.mzcr.cz/distribuce/63/narodni-registr
 population_dataset_url = "https://www.czso.cz/documents/10180/184344914/130141-22data2021.csv"
 county_codes_dataset_url = "https://skoda.projekty.ms.mff.cuni.cz/ndbi046/seminars/02/%C4%8D%C3%ADseln%C3%ADk-okres%C5%AF-vazba-101-nad%C5%99%C3%ADzen%C3%BD.csv"
 
+output_path = '{{dag_run.conf["output_path"]}}'
+
 dag_args = {
     "email": ["kristyna.lhotanova@gmail.com"],
     "email_on_failure": False,
     "email_on_retry": False,
     "retries": 3,
     'retry_delay': timedelta(minutes=5),
-    'output_path': '../output'
 }
 
 with DAG(
@@ -52,7 +53,7 @@ with DAG(
 
     task04 = BashOperator(
         task_id="care_providers_data_cube",
-        bash_command="ts-node --esm care-providers.ts",
+        bash_command=f"ts-node --esm care-providers.ts {output_path}",
         cwd=scripts_folder
     )
 
@@ -60,7 +61,7 @@ with DAG(
 
     task05 = BashOperator(
         task_id="population_data_cube",
-        bash_command="ts-node --esm population.ts",
+        bash_command=f"ts-node --esm population.ts {output_path}",
         cwd=scripts_folder
     )
 
@@ -68,7 +69,7 @@ with DAG(
 
     task06 = BashOperator(
         task_id="integrity_constraints_validation",
-        bash_command="ts-node --esm constraints-validation.ts",
+        bash_command=f"ts-node --esm constraints-validation.ts {output_path}",
         cwd=scripts_folder
     )
 

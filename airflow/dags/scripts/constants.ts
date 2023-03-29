@@ -5,6 +5,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 
+export const OUTPUT_DIR = process.argv[2] || `${__dirname}/../output`;
+
 export const BASE_URI = 'http://example.org/ontology#';
 
 export const NS = $rdf.Namespace(BASE_URI);
