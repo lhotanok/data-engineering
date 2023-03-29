@@ -1,11 +1,12 @@
 import * as $rdf from 'rdflib';
 import { unraw } from 'unraw';
-import { writeFileSync, existsSync, mkdirSync } from 'fs';
+import { writeFileSync } from 'fs';
 import * as csv from 'csvtojson';
 import removeAccents from 'remove-accents';
 import { CareProvider, CareProvidersGroup } from './types.js';
 import { loadRdfIntoStore } from './rdf-store.js';
 import { RDF, QB, NS, XSD, __dirname, UNKNOWN_TEXT, DBO } from './constants.js';
+import { initializeDirectories } from './utils.js';
 
 const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[] => {
     const careProviderGroups:  Record<string, CareProvidersGroup> = {};
@@ -68,19 +69,6 @@ const addObservations = (store: $rdf.Store, careProviderGroups: CareProvidersGro
     });
 };
 
-const initializeDirectories = () => {
-    const outputDir = `${__dirname}/../output`;
-    const tempDir = `${__dirname}/../temp`;
-
-    if (!existsSync(outputDir)){
-        mkdirSync(outputDir);
-    }
-
-    if (!existsSync(tempDir)){
-        mkdirSync(tempDir);
-    }
-}
-
 const main = async () => {
     initializeDirectories();
 
@@ -101,7 +89,7 @@ const main = async () => {
     addObservations(store, careProviderGroups);
 
     writeFileSync(
-        `${__dirname}/../output/care-providers.ttl`,
+        `${__dirname}/../output/health_care.ttl`,
         unraw(
             $rdf.serialize(null, store, '', 'text/turtle')
         ),

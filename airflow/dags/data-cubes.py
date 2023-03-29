@@ -16,7 +16,7 @@ dag_args = {
     "email": ["kristyna.lhotanova@gmail.com"],
     "email_on_failure": False,
     "email_on_retry": False,
-    "retries": 0,
+    "retries": 3,
     'retry_delay': timedelta(minutes=5),
     'output_path': '../output'
 }
@@ -57,6 +57,15 @@ with DAG(
         cwd=scripts_folder
     )
 
-    task03.doc_md = """This task generates 'Care providers' data cube and stores it to the output directory."""
+    task04.doc_md = """This task generates 'Care providers' data cube and stores it into the output directory."""
+
+    task05 = BashOperator(
+        task_id="population_data_cube",
+        bash_command="ts-node --esm population.ts",
+        cwd=scripts_folder
+    )
+
+    task05.doc_md = """This task generates 'Population' data cube and stores it into the output directory."""
 
     task04.set_upstream([task01, task02, task03])
+    task05.set_upstream([task01, task02, task03])
