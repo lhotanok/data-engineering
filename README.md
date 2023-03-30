@@ -1,8 +1,16 @@
 # Data engineering course
 
-[TOC]
+1. [System requirements](#requirements)
+2. [Prerequisities](#prerequisities)
+3. [Projects](#projects)
+   - [Data Cubes](#data_cubes)
+     - [Installation instructions](#data_cubes_installation)
+     - [Files](#data_cubes_files)
+   - [Apache Airflow](#apache_airflow)
+     - [Installation instructions](#apache_airflow_installation)
+     - [Files](#apache_airflow_files)
 
-## System requirements
+## System requirements <a name="requirements"></a>
 
 - Linux / Windows 10 or higher with WSL installed
 - Nodejs `v19.8.1` or higher
@@ -10,7 +18,7 @@
 - Python `v3.8`
 - PyPI `v20.0.2` or higher
 
-## Prerequisities
+## Prerequisities<a name="prerequisities"></a>
 
 - [Nodejs](https://nodejs.org/en)
 - [NPM](https://www.npmjs.com/)
@@ -18,16 +26,16 @@
 - [Python](https://www.python.org/)
 - [PyPI](https://pypi.org/)
 
-## Projects
+## Projects<a name="projects"></a>
 
-### 1. Data Cubes
+### Data Cubes<a name="data_cubes"></a> 
 
 We're generating the following data cubes:
 
 - **Care providers** (Poskytovatelé zdravotních služeb)
 - **Population 2021** (Obyvatelé okresy 2021)
 
-#### Installation instructions
+#### Installation instructions<a name="data_cubes_installation"></a>
 
 ##### Configuration
 
@@ -52,7 +60,7 @@ To generate both data cubes and test their integrity constraints, run the follow
 npm test
 ```
 
-#### Files
+#### Files<a name="data_cubes_files"></a>
 
 ##### Input
 
@@ -80,14 +88,14 @@ The following scripts need to be run to generate both data cubes and to validate
 - `population.ts`
 - `constraints-validation.ts`
 
-### 2. Apache Airflow
+### Apache Airflow<a name="apache_airflow"></a> 
 
 We're generating the same data cubes as in the previous section:
 
 - **Care providers** (Poskytovatelé zdravotních služeb)
 - **Population 2021** (Obyvatelé okresy 2021)
 
-#### Installation instructions
+#### Installation instructions<a name="apache_airflow_installation"></a> 
 
 This project needs to be run on a Linux machine or in the WSL environment.
 
@@ -162,9 +170,11 @@ you should only see one DAG - `data-cubes`.
 DAGs can be easily triggered using the web interface. You need to provide a JSON configuration with `output_path` field.
 An example of the right configuration can be seen at `dag-configuration.json`. The generated data cubes will be stored into the directory specified by `output_path` parameter. If you forget to pass this parameter, `{dags_folder}/output` will be used as a default location for output files.
 
+#### Files<a name="apache_airflow_files"></a>
+
 ##### Input
 
-Input files are gathered in `airflow/dags/input` directory. Three CSV files will be downloaded (same as in the first project):
+Input files are gathered in `airflow/dags/input` directory. Three CSV files will be downloaded (same as in [Data Cubes](#data_cubes) project):
 
 - `care-providers-registry.csv` (data sources for care providers data cube)
 - `population-cs-2021.csv `(data sources for mean population data cube)
@@ -202,7 +212,7 @@ For a better idea of how the tasks are connected, see the DAG's graph visualizat
 
 ##### Scripts
 
-Scripts operating with CSV and RDF files were adapted from the first project. They're stored in `airflow/dags/scripts` and they're triggered by `data-cubes.py`. The most important (entry) scripts are again the following:
+Scripts operating with CSV and RDF files were adapted from the [Data Cubes](#data_cubes) project. They're stored in `airflow/dags/scripts` and they're triggered by `data-cubes.py`. The most important (entry) scripts are again the following:
 
 - `care-providers.ts`
 - `population.ts`
