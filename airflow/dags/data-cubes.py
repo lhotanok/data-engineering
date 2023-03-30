@@ -11,7 +11,7 @@ care_providers_dataset_url = "https://data.mzcr.cz/distribuce/63/narodni-registr
 population_dataset_url = "https://www.czso.cz/documents/10180/184344914/130141-22data2021.csv"
 county_codes_dataset_url = "https://skoda.projekty.ms.mff.cuni.cz/ndbi046/seminars/02/%C4%8D%C3%ADseln%C3%ADk-okres%C5%AF-vazba-101-nad%C5%99%C3%ADzen%C3%BD.csv"
 
-output_path = '{{dag_run.conf["output_path"]}}'
+output_path = '{{dag_run.conf["output_path"]}}' if "output_path" in '{{dag_run.conf}}' else f"{DAGS_FOLDER}/output"
 
 dag_args = {
     "email": ["kristyna.lhotanova@gmail.com"],
