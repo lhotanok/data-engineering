@@ -1,0 +1,152 @@
+@prefix ont: <http://example.org/ontology#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix : <http://example.org/provenance#>.
+
+:openData a foaf:Organization, prov:Organization;
+    foaf:homepage "https://data.gov.cz/"^^xsd:string;
+    foaf:name "Otevřená data"@cs, "Open Data"@en.
+
+:kristyna_lhotanova a foaf:Person, prov:Person;
+    foaf:familyName "Lhoťanová"@cs;
+    foaf:givenName "Kristýna"@cs;
+    foaf:mbox <mailto:kristyna.lhotanova@gmail.com>;
+    prov:actedOnBehalfOf :charles_university.
+
+:petr_skoda a foaf:Person, prov:Person;
+    foaf:familyName "Škoda"@cs;
+    foaf:givenName "Petr"@cs;
+    foaf:mbox <mailto:petr.skoda@matfyz.cuni.cz>;
+    prov:actedOnBehalfOf :charles_university.
+
+:charles_university
+    a foaf:Organization, prov:Organization;
+    foaf:name "Karlova Univerzita"@cs, "Charles University"@en.
+
+:vs_code a prov:SoftwareAgent;
+    rdfs:label "Visual Studio Code"^^xsd:string.
+
+:developer a prov:Role.
+:tutor a prov:Role.
+:ide a prov:Role.
+:csvInputToBeFilteredAndTransformed a prov:Role.
+:nutsCountyCodesToBeMatched a prov:Role.
+
+:data_cubes_tutorial a prov:Plan;
+    prov:qualifiedAttribution [
+        a prov:Attribution;
+        prov:agent :petr_skoda;
+        prov:hadRole :tutor;
+        rdfs:comment "Petr Škoda provided a tutorial on how to generate RDF data cubes with metadata and how to validate them using the integrity constraints."@en;
+    ].
+
+ont:careProvidersDataset a prov:Entity;
+    prov:wasGeneratedBy :careProvidersTransformationActivity;
+    prov:qualifiedGeneration [
+        a prov:Generation;
+        prov:atTime "2023-03-17T14:47:30Z"^^xsd:dateTime;
+        prov:activity :careProvidersTransformationActivity;
+    ];
+    prov:wasDerivedFrom  :aggregatedByCountryCountyFieldOfCare;
+    prov:atLocation <file://data-cubes/care-providers.ttl>;
+    prov:wasAttributedTo :kristyna_lhotanova, :vs_code.
+
+ont:populationDataset a prov:Entity;
+    prov:wasGeneratedBy :populationTransformationActivity;
+    prov:qualifiedGeneration [
+        a prov:Generation;
+        prov:atTime "2023-03-17T14:47:20Z"^^xsd:dateTime;
+        prov:activity :populationTransformationActivity;
+    ];
+    prov:wasDerivedFrom :populationIn2021Data, :countyCodelist;
+    prov:atLocation <file://data-cubes/output/population.ttl>;
+    prov:wasAttributedTo :kristyna_lhotanova, :vs_code.
+
+<file://data-cubes/output/care-providers.ttl> a prov:Location .
+<file://data-cubes/output/population.ttl> a prov:Location .
+
+:careProvidersTransformationActivity a prov:Activity;
+    prov:used :aggregatedByCountryCountyFieldOfCare;
+    prov:generated ont:careProvidersDataset;
+    prov:wasAssociatedWith :kristyna_lhotanova, :vs_code;
+    prov:startedAtTime "2023-03-17T14:47:20Z"^^xsd:dateTime;
+    prov:endedAtTime "2023-03-17T14:47:27Z"^^xsd:dateTime;
+    prov:wasInformedBy :careProvidersAggregationActivity;
+    prov:qualifiedUsage [
+        a prov:Usage;
+        prov:entity :aggregatedByCountryCountyFieldOfCare;
+        prov:atTime "2023-03-17T14:47:27Z"^^xsd:dateTime;
+    ];
+    prov:qualifiedAssociation [
+        a prov:Association;
+        prov:agent :kristyna_lhotanova;
+        prov:hadRole :developer;
+        prov:hadPlan :data_cubes_tutorial;
+        rdfs:comment "Kristýna Lhoťanová developed a script in TypeScript language to generate RDF data cube with health care providers."@en;
+    ];
+    prov:qualifiedAssociation [
+        a prov:Association;
+        prov:agent :vs_code;
+        prov:hadRole :ide;
+        rdfs:comment "Visual Studio Code was used as an IDE by Kristýna Lhoťanová while developing transformation scripts for data related to health care providers."@en;
+    ].
+
+:aggregatedByCountryCountyFieldOfCare a prov:Entity;
+   prov:wasGeneratedBy :careProvidersAggregationActivity;
+   prov:wasAttributedTo :kristyna_lhotanova, :vs_code.
+
+:careProvidersAggregationActivity a prov:Activity;
+    prov:used :careProvidersData;
+    prov:qualifiedUsage [
+        a prov:Usage;
+        prov:entity :careProvidersData;
+        prov:hadRole :csvInputToBeFilteredAndTransformed;
+        prov:atTime "2023-03-17T14:46:42Z"^^xsd:dateTime;
+    ];
+    prov:generated :aggregatedByCountryCountyFieldOfCare;
+    prov:startedAtTime "2023-03-17T14:46:40Z"^^xsd:dateTime;
+    prov:endedAtTime "2023-03-17T14:47:00Z"^^xsd:dateTime;
+    prov:wasAssociatedWith :kristyna_lhotanova, :vs_code.
+
+:populationTransformationActivity a prov:Activity;
+    prov:used :populationIn2021Data, :countyCodelist;
+    prov:generated ont:populationDataset ;
+    prov:startedAtTime "2023-03-17T14:47:00Z"^^xsd:dateTime;
+    prov:endedAtTime "2023-03-17T14:47:20Z"^^xsd:dateTime;
+    prov:wasAssociatedWith :kristyna_lhotanova, :vs_code;
+    prov:qualifiedUsage [
+        a prov:Usage;
+        prov:entity :populationIn2021Data;
+        prov:hadRole :csvInputToBeFilteredAndTransformed;
+        prov:atTime "2023-03-17T14:47:02Z"^^xsd:dateTime;
+    ];
+    prov:qualifiedUsage [
+        a prov:Usage;
+        prov:entity :countyCodelist;
+        prov:hadRole :nutsCountyCodesToBeMatched;
+        prov:atTime "2023-03-17T14:47:08Z"^^xsd:dateTime;
+    ];
+    prov:qualifiedAssociation [
+        a prov:Association;
+        prov:agent :kristyna_lhotanova;
+        prov:hadRole :developer;
+        prov:hadPlan :data_cubes_tutorial;
+        rdfs:comment "Kristýna Lhoťanová developed a script in TypeScript language to generate RDF data cube with population in 2021."@en;
+    ];
+    prov:qualifiedAssociation [
+        a prov:Association;
+        prov:agent :vs_code;
+        prov:hadRole :ide;
+        rdfs:comment "Visual Studio Code was used as an IDE by Kristýna Lhoťanová while developing transformation scripts for data related to population in 2021."@en;
+    ].
+
+:careProvidersData a prov:Entity;
+    prov:wasAttributedTo :openData.
+
+:populationIn2021Data a prov:Entity;
+    prov:wasAttributedTo :openData.
+
+:countyCodelist a prov:Entity;
+    prov:wasAttributedTo :petr_skoda.

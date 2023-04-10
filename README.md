@@ -9,6 +9,7 @@
    - [Apache Airflow](#apache_airflow)
      - [Installation instructions](#apache_airflow_installation)
      - [Files](#apache_airflow_files)
+   - Provenance(#provenance)
 
 ## System requirements <a name="requirements"></a>
 
@@ -217,3 +218,7 @@ Scripts operating with CSV and RDF files were adapted from the [Data Cubes](#dat
 - `care-providers.ts`
 - `population.ts`
 - `constraints-validation.ts`
+
+### Provenance<a name="provenance"></a>
+
+A provenance document describing a process of generating datasets from [Data Cubes](#data_cubes) project can be found in `provenance` directory. It is stored as `provenance.trig` file in RDF TriG format. It follows [PROV-O](https://www.w3.org/TR/prov-o/) specification and its attached examples.
