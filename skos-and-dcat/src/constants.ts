@@ -12,6 +12,7 @@ export const QB = $rdf.Namespace('http://purl.org/linked-data/cube#');
 export const RDF = $rdf.Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#');
 export const XSD = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
 export const DBO = $rdf.Namespace('http://dbpedia.org/ontology/');
+export const SKOS = $rdf.Namespace('http://www.w3.org/2004/02/skos/core#');
 
 export const UNKNOWN_TEXT = 'neznámé';
 export const MEAN_POPULATION_VUK = 'DEM0004';
