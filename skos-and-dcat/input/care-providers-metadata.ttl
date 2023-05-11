@@ -1,0 +1,33 @@
+@prefix meta: <http://example.org/metadata#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix lang: <http://id.loc.gov/vocabulary/iso639-1/> .
+
+meta:careProvidersDataset a dcat:Dataset ;
+  skos:prefLabel "Poskytovatelé zdravotních služeb"@cs, "Care providers"@en ;
+  dct:title "Poskytovatelé zdravotních služeb"@cs, "Care providers"@en ;
+  dct:description "Dataset obsahuje data o poskytovatelích zdravotních služeb v České republice včetně informací o příslušných zdravotních zařízeních."@cs ,
+                  "Dataset contains data describing health care providers in the Czech Republic including details of their corresponding healthcare facilities."@en ;
+  dcat:keyword "zdravotní péče"@cs, "poskytovatel"@cs, "health care"@en, "provider"@en ;
+  dcat:theme <http://eurovoc.europa.eu/5899>,
+             <http://eurovoc.europa.eu/2789>,
+             <http://eurovoc.europa.eu/5764>,
+             <http://eurovoc.europa.eu/5921> ;
+  dct:spatial <https://www.wikidata.org/wiki/Q213>,
+              <http://publications.europa.eu/resource/authority/country/CZE> ;
+  dct:accrualPeriodicity <http://publications.europa.eu/resource/authority/frequency/QUARTERLY> ;
+  dcat:distribution <http://example.org/resource/dataset/care-providers/distribution/rdf> ;
+  dcat:creator <https://kristyna.lhotanova.com/#me> ;
+  dcat:issued "2023-05-11"^^xsd:date ;
+  dcat:modified "2023-05-11"^^xsd:date ;
+  dcat:publisher <https://kristyna.lhotanova.com/#me> ;
+  dcat:language lang:cs  ;
+  dcat:license <https://creativecommons.org/licenses/by/4.0/> .
+
+<http://example.org/resource/dataset/care-providers/distribution/rdf> a dcat:Distribution ;
+  dcat:accessURL <http://example.org/download/care-providers.ttl> ;
+  dcat:downloadURL <http://example.org/download/care-providers.ttl> ;
+  dcat:mediaType <http://www.iana.org/assignments/media-types/text/turtle> ;
+  dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> .
