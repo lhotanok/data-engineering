@@ -2,10 +2,15 @@ import * as $rdf from 'rdflib';
 import { unraw } from 'unraw';
 import { writeFileSync } from 'fs';
 import * as csv from 'csvtojson';
-import removeAccents from 'remove-accents';
 import { CareProvider, CareProvidersGroup } from './types.js';
 import { loadRdfIntoStore } from './rdf-store.js';
-import { RDF, QB, NS, XSD, __dirname, UNKNOWN_TEXT, DBO, SKOS } from './constants.js';
+import { RDF, QB, NS, XSD, __dirname, UNKNOWN_TEXT } from './constants.js';
+import {
+    createNamedNode,
+    defineSkosHierarchy,
+    addNonEmptyCode,
+    addNonEmptyLabel,
+} from './dataset-utils.js';
 
 const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[] => {
     const careProviderGroups:  Record<string, CareProvidersGroup> = {};
@@ -34,10 +39,6 @@ const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[
     return Object.values(careProviderGroups);
 };
 
-const textToIriPart = (text: string) => removeAccents(text)
-    .replace(/ /g, '_')
-    .toLowerCase();
-
 const addObservations = (store: $rdf.Store, careProviderGroups: CareProvidersGroup[]) => {
     console.log(`Inserting ${careProviderGroups.length} observations into care providers data cube`);
 
@@ -45,27 +46,16 @@ const addObservations = (store: $rdf.Store, careProviderGroups: CareProvidersGro
         const observationId = String(i + 1).padStart(6, '0');
         const observation = store.sym(`http://example.org/resources/health-care/observation-${observationId}`);
 
-        const regionResourceName = group.regionCode ? group.regionCode : textToIriPart(group.region);
+        const region = createNamedNode(store, group.region, group.regionCode, 'Region');
+        const county = createNamedNode(store, group.county, group.countyCode, 'County');
 
-        const region = store.sym(`http://example.org/resources/${regionResourceName}`);
-        store.add(region, RDF('type'), NS('Region'));
+        defineSkosHierarchy(store, region, county);
 
-        if (group.regionCode) store.add(region, DBO('nutsCode'), group.regionCode);
-        if (group.region) {
-            store.add(region, DBO('originalName'), $rdf.literal(group.region, 'cs'));
-            store.add(region, SKOS('prefLabel'), $rdf.literal(group.region, 'cs'));
-        }
+        addNonEmptyCode(store, region, group.regionCode);
+        addNonEmptyLabel(store, region, group.region);
 
-        const countyResourceName = group.countyCode ? group.countyCode : textToIriPart(group.county);
-
-        const county = store.sym(`http://example.org/resources/${countyResourceName}`);
-        store.add(county, RDF('type'), NS('County'));
-
-        if (group.countyCode) store.add(county, DBO('nutsCode'), group.countyCode);
-        if (group.county) {
-            store.add(county, DBO('originalName'), $rdf.literal(group.county, 'cs'));
-            store.add(county, SKOS('prefLabel'), $rdf.literal(group.county, 'cs'));
-        }
+        addNonEmptyCode(store, county, group.countyCode);
+        addNonEmptyLabel(store, county, group.county);
 
         store.add(observation, RDF('type'), QB('Observation'));
         store.add(observation, QB('dataSet'), NS('careProvidersDataset'));

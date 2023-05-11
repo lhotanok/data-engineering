@@ -3,8 +3,9 @@ import { unraw } from 'unraw';
 import { writeFileSync } from 'fs';
 import * as csv from 'csvtojson';
 import { loadRdfIntoStore } from './rdf-store.js';
-import { RDF, QB, NS, XSD, __dirname, MEAN_POPULATION_VUK, COUNTY_VUZEMI_CIS, DBO, SKOS } from './constants.js';
+import { RDF, QB, NS, XSD, __dirname, MEAN_POPULATION_VUK, COUNTY_VUZEMI_CIS } from './constants.js';
 import { CountyCodeRecord, PopulationRecord } from './types.js';
+import { addNonEmptyLabel, createNamedNode, defineSkosHierarchy } from './dataset-utils.js';
 
 const countyCodesToNUTS = async () : Promise<Record<string, string>> => {
     const countyRecords: CountyCodeRecord[] = await csv.default()
@@ -34,18 +35,12 @@ const addObservations = (store: $rdf.Store, populationRecords: PopulationRecord[
         const countyCode = record.vuzemi_kod;
         const regionCode = countyCode.substring(0, record.vuzemi_kod.length - 1);
 
-        const region = store.sym(`http://example.org/resources/${regionCode}`);
-        store.add(region, RDF('type'), NS('Region'));
-        store.add(region, DBO('nutsCode'), regionCode);
+        const region = createNamedNode(store, '', regionCode, 'Region');
+        const county = createNamedNode(store, record.vuzemi_txt, countyCode, 'County');
 
-        const county = store.sym(`http://example.org/resources/${countyCode}`);
-        store.add(county, RDF('type'), NS('County'));
-        store.add(county, DBO('nutsCode'), countyCode);
+        defineSkosHierarchy(store, region, county);
 
-        if (record.vuzemi_txt) {
-            store.add(county, DBO('originalName'), $rdf.literal(record.vuzemi_txt, 'cs'));
-            store.add(county, SKOS('prefLabel'), $rdf.literal(record.vuzemi_txt, 'cs'));
-        }
+        addNonEmptyLabel(store, county, record.vuzemi_txt);
 
         store.add(observation, RDF('type'), QB('Observation'));
         store.add(observation, QB('dataSet'), NS('populationDataset'));
