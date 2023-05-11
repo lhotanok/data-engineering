@@ -226,6 +226,14 @@ A provenance document describing a process of generating datasets from [Data Cub
 
 ### SKOS & DCAT-AP <a name="skos-and-dcat"></a>
 
-The `care-providers` dataset from [Data Cubes](#data_cubes) project is extended by DCAT-AP metadata in the `skos-and-dcat` project. Project structure is the same as in `data-cubes` project, except for metadata. Those were removed from `population` dataset completely and moved from `care-providers` dataset into a separate dataset: `care-providers-metadata`. Metadata are described with a file `skos-and-dcat/input/care-providers-metadata.ttl`. File's content is loaded into an RDF store, normalized and dumped into `skos-and-dcat/output/care-providers-metadata.ttl`.
+The datasets from [Data Cubes](#data_cubes) project are extended with SKOS hierarchy and DCAT-AP metadata in the `skos-and-dcat` project. 
 
-For project installation & usage instructions, refer to the original [Data Cubes](#data_cubes) section.
+For project installation & usage instructions, refer to the original [Data Cubes](#data_cubes) section. Project structure is the same as in `data-cubes` project, except for 2 changes:
+
+#### 1. Metadata
+
+Compared to the original [Data Cubes](#data_cubes) project, metadata were removed from `population` dataset completely and they were moved from `care-providers` dataset into a separate dataset `care-providers-metadata`. Metadata are described in a file `skos-and-dcat/input/care-providers-metadata.ttl`. File's content is loaded into an RDF store, normalized and dumped into `skos-and-dcat/output/care-providers-metadata.ttl`.
+
+#### 2. SKOS hierarchy
+
+A SKOS hierarchy was employed for regions and counties in both data cubes - `care-providers` and `population`. Regions and counties are defined as separate SKOS concepts (`skos:Concept`) and they're connected to the hierarchy through Broader and Narrower relationships (`skos:broader`, `skos:narrower`).
