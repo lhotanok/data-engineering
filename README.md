@@ -224,4 +224,8 @@ Scripts operating with CSV and RDF files were adapted from the [Data Cubes](#dat
 
 A provenance document describing a process of generating datasets from [Data Cubes](#data_cubes) project can be found in `provenance` directory. It is stored as `provenance.trig` file in RDF TriG format. It follows [PROV-O](https://www.w3.org/TR/prov-o/) specification and its attached examples.
 
-SKOS & DCAT-AP <a name="skos-and-dcat"></a>
+### SKOS & DCAT-AP <a name="skos-and-dcat"></a>
+
+The `care-providers` dataset from [Data Cubes](#data_cubes) project is extended by DCAT-AP metadata in the `skos-and-dcat` project. Project structure is the same as in `data-cubes` project, except for metadata. Those were removed from `population` dataset completely and moved from `care-providers` dataset into a separate dataset: `care-providers-metadata`. Metadata are described with a file `skos-and-dcat/input/care-providers-metadata.ttl`. File's content is loaded into an RDF store, normalized and dumped into `skos-and-dcat/output/care-providers-metadata.ttl`.
+
+For project installation & usage instructions, refer to the original [Data Cubes](#data_cubes) section.
