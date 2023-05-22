@@ -13,12 +13,12 @@ The catalog includes metadata for each dataset, enabling easy access and analysi
 
 This catalog contains data cubes with health care providers and population demography in the Czech Republic. You can download it in RDF Turtle format:
 
-[View Data Catalog]({{ site.baseurl }}/data/data-catalog.ttl)
+[View Data Catalog](/data/data-catalog.ttl)
 
 ## Certificate
 
-[Download Certificate]({{ site.baseurl }}/data/certificate.crt)
+[Download Certificate](/data/certificate.crt)
 
 ## Data Catalog Sign
 
-[Download Data Catalog Sign]({{ site.baseurl }}/data/data-catalog.sha256.sign)
+[Download Data Catalog Sign](/data/data-catalog.sha256.sign)
