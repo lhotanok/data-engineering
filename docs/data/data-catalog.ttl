@@ -140,15 +140,15 @@ di:rdf
     a dcat:Distribution;
     dct:format fil:RDF_TURTLE;
     spdx:checksum meta:checksum;
-    dcat:accessURL <https://lhotanok.github.io/data-engineering/care-providers.ttl>;
-    dcat:downloadURL <https://lhotanok.github.io/data-engineering/care-providers.ttl>;
+    dcat:accessURL <https://lhotanok.github.io/data-engineering/data/care-providers.ttl>;
+    dcat:downloadURL <https://lhotanok.github.io/data-engineering/data/care-providers.ttl>;
     dcat:mediaType text:turtle.
 dis:rdf
     a dcat:Distribution;
     dct:format fil:RDF_TURTLE;
     spdx:checksum meta:checksum;
-    dcat:accessURL <https://lhotanok.github.io/data-engineering/population.ttl>;
-    dcat:downloadURL <https://lhotanok.github.io/data-engineering/population.ttl>;
+    dcat:accessURL <https://lhotanok.github.io/data-engineering/data/population.ttl>;
+    dcat:downloadURL <https://lhotanok.github.io/data-engineering/data/population.ttl>;
     dcat:mediaType text:turtle.
 res:
     a ont:County, ont:Region, skos:Concept;
