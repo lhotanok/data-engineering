@@ -1,6 +1,4 @@
 import * as $rdf from 'rdflib';
-import { unraw } from 'unraw';
-import { createHash } from 'crypto';
 import { writeFileSync } from 'fs';
 import * as csv from 'csvtojson';
 import { CareProvider, CareProvidersGroup } from './types.js';
@@ -11,6 +9,8 @@ import {
     defineSkosHierarchy,
     addNonEmptyCode,
     addNonEmptyLabel,
+    addChecksum,
+    stringifyStore,
 } from './dataset-utils.js';
 
 const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[] => {
@@ -67,24 +67,6 @@ const addObservations = (store: $rdf.Store, careProviderGroups: CareProvidersGro
     });
 };
 
-const addChecksum = (metadataStore: $rdf.Store, datasetContent: string) => {
-    const checksumValue = createHash('sha256')
-        .update(datasetContent)
-        .digest('hex');
-
-    metadataStore.add(
-        META('checksum'),
-        SPDX('checksumValue'),
-        $rdf.literal(checksumValue, XSD('hexBinar')),
-    );
-};
-
-const stringifyStore = (store: $rdf.Store) => {
-    return unraw(
-        $rdf.serialize(null, store, '', 'text/turtle'),
-    );
-};
-
 const main = async () => {
     const store  = $rdf.graph();
     const metadataStore = $rdf.graph();
@@ -106,7 +88,7 @@ const main = async () => {
 
     const datasetContent = stringifyStore(store);
 
-    addChecksum(metadataStore, datasetContent);
+    addChecksum(metadataStore, 'careProvidersDatasetChecksum', datasetContent);
 
     writeFileSync(
         `${__dirname}/../output/care-providers.ttl`,

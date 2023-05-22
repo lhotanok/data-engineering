@@ -1,6 +1,8 @@
 import * as $rdf from 'rdflib';
+import { unraw } from 'unraw';
 import removeAccents from 'remove-accents';
-import { RDF, NS, __dirname, DBO, SKOS } from './constants.js';
+import { RDF, NS, __dirname, DBO, SKOS, META, SPDX, XSD } from './constants.js';
+import { createHash } from 'crypto';
 
 export const createNamedNode = (
     store: $rdf.Store, name: string, code: string, nodeType: 'Region' | 'County',
@@ -35,6 +37,23 @@ export const addNonEmptyCode = (store: $rdf.Store, node: $rdf.NamedNode, code: s
     }
 };
 
+export const addChecksum = (metadataStore: $rdf.Store, checksumName: string, datasetContent: string) => {
+    const checksumValue = createHash('sha256')
+        .update(datasetContent)
+        .digest('hex');
+
+    metadataStore.add(
+        META(checksumName),
+        SPDX('checksumValue'),
+        $rdf.literal(checksumValue, XSD('hexBinar')),
+    );
+};
+
+export const stringifyStore = (store: $rdf.Store) => {
+    return unraw(
+        $rdf.serialize(null, store, '', 'text/turtle'),
+    );
+};
 
 const textToIriPart = (text: string) => removeAccents(text)
     .replace(/ /g, '_')

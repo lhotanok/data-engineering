@@ -1,11 +1,10 @@
 import * as $rdf from 'rdflib';
-import { unraw } from 'unraw';
 import { writeFileSync } from 'fs';
 import * as csv from 'csvtojson';
 import { loadRdfIntoStore } from './rdf-store.js';
 import { RDF, QB, NS, XSD, __dirname, MEAN_POPULATION_VUK, COUNTY_VUZEMI_CIS } from './constants.js';
 import { CountyCodeRecord, PopulationRecord } from './types.js';
-import { addNonEmptyLabel, createNamedNode, defineSkosHierarchy } from './dataset-utils.js';
+import { addChecksum, addNonEmptyLabel, createNamedNode, defineSkosHierarchy, stringifyStore } from './dataset-utils.js';
 
 const countyCodesToNUTS = async () : Promise<Record<string, string>> => {
     const countyRecords: CountyCodeRecord[] = await csv.default()
@@ -52,9 +51,11 @@ const addObservations = (store: $rdf.Store, populationRecords: PopulationRecord[
 
 const main = async () => {
     const store  = $rdf.graph();
+    const metadataStore = $rdf.graph();
 
     loadRdfIntoStore(store, `${__dirname}/../input/shared-schema.ttl`);
     loadRdfIntoStore(store, `${__dirname}/../input/population-schema.ttl`);
+    loadRdfIntoStore(metadataStore, `${__dirname}/../input/population-metadata.ttl`);
 
     const populationRecords: PopulationRecord[] = await csv.default()
         .fromFile(`${__dirname}/../input/population-cs-2021.csv`);
@@ -79,6 +80,10 @@ const main = async () => {
 
     addObservations(store, normalizedMeanPopulation);
 
+    const datasetContent = stringifyStore(store);
+
+    addChecksum(metadataStore, 'populationDatasetChecksum', datasetContent);
+
     writeFileSync(
         `${__dirname}/../temp/population-records.json`,
         JSON.stringify(normalizedMeanPopulation, null, 2),
@@ -86,9 +91,12 @@ const main = async () => {
 
     writeFileSync(
         `${__dirname}/../output/population.ttl`,
-        unraw(
-            $rdf.serialize(null, store, '', 'text/turtle')
-        ),
+        datasetContent,
+    );
+
+    writeFileSync(
+        `${__dirname}/../output/population-metadata.ttl`,
+        stringifyStore(metadataStore),
     );
 };
 
