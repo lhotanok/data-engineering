@@ -5,6 +5,7 @@ import * as csv from 'csvtojson';
 import { loadRdfIntoStore } from './rdf-store.js';
 import { RDF, QB, NS, XSD, __dirname, MEAN_POPULATION_VUK, COUNTY_VUZEMI_CIS, DBO } from './constants.js';
 import { CountyCodeRecord, PopulationRecord } from './types.js';
+import { initializeDataDirs } from './utils.js';
 
 const countyCodesToNUTS = async () : Promise<Record<string, string>> => {
     const countyRecords: CountyCodeRecord[] = await csv.default()
@@ -53,6 +54,8 @@ const addObservations = (store: $rdf.Store, populationRecords: PopulationRecord[
 
 const main = async () => {
     const store  = $rdf.graph();
+
+    initializeDataDirs();
 
     loadRdfIntoStore(store, `${__dirname}/../input/shared-schema.ttl`);
     loadRdfIntoStore(store, `${__dirname}/../input/population-schema.ttl`);

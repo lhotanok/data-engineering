@@ -11,6 +11,7 @@ import {
     addNonEmptyCode,
     addNonEmptyLabel,
 } from './dataset-utils.js';
+import { initializeDataDirs } from './utils.js';
 
 const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[] => {
     const careProviderGroups:  Record<string, CareProvidersGroup> = {};
@@ -69,6 +70,8 @@ const addObservations = (store: $rdf.Store, careProviderGroups: CareProvidersGro
 const main = async () => {
     const store  = $rdf.graph();
     const metadataStore = $rdf.graph();
+
+    initializeDataDirs();
 
     loadRdfIntoStore(store, `${__dirname}/../input/shared-schema.ttl`);
     loadRdfIntoStore(store, `${__dirname}/../input/care-providers-schema.ttl`);

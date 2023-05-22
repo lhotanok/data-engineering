@@ -6,6 +6,7 @@ import removeAccents from 'remove-accents';
 import { CareProvider, CareProvidersGroup } from './types.js';
 import { loadRdfIntoStore } from './rdf-store.js';
 import { RDF, QB, NS, XSD, __dirname, UNKNOWN_TEXT, DBO } from './constants.js';
+import { initializeDataDirs } from './utils.js';
 
 const countCareProviders = (careProviders: CareProvider[]) : CareProvidersGroup[] => {
     const careProviderGroups:  Record<string, CareProvidersGroup> = {};
@@ -70,6 +71,8 @@ const addObservations = (store: $rdf.Store, careProviderGroups: CareProvidersGro
 
 const main = async () => {
     const store  = $rdf.graph();
+
+    initializeDataDirs();
 
     loadRdfIntoStore(store, `${__dirname}/../input/shared-schema.ttl`);
     loadRdfIntoStore(store, `${__dirname}/../input/care-providers-schema.ttl`);
