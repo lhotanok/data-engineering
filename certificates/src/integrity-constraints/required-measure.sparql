@@ -1,0 +1,12 @@
+# Every qb:DataStructureDefinition must include at least one declared measure.
+
+PREFIX qb: <http://purl.org/linked-data/cube#>
+
+ASK {
+  ?structure a qb:DataStructureDefinition .
+  FILTER NOT EXISTS {
+    ?structure qb:component ?component .
+    ?component qb:measure ?measure .
+    ?measure a qb:MeasureProperty .
+  }
+}
