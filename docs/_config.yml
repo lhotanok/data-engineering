@@ -20,14 +20,13 @@
 
 title: Data Engineering
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://lhotanok.github.io/data-engineering" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  lhotanok
+url: "https://lhotanok.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+github_username: lhotanok
 
 # Build settings
-remote_theme: pages-themes/cayman@v0.2.0
+theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
-  - jekyll-rouge
 
 # Exclude from processing.
 # The following items will not be processed, by default.
