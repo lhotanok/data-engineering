@@ -1,0 +1,7 @@
+openssl req -newkey rsa:2048 -nodes -keyout private.key --out request.csr -subj "/C=CZ/O='Charles University'/CN=example.org"
+
+openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout certificate_private.key -out certificate.crt -subj "/C=CZ/O='Charles University'/CN=example.org"
+
+openssl dgst -sha256 -sign certificate_private.key -out data-catalog.sha256 output/data-catalog.ttl
+
+openssl base64 -in data-catalog.sha256 -out data-catalog.sha256.sign

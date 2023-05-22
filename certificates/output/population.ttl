@@ -1,0 +1,939 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix dbo: <http://dbpedia.org/ontology/>.
+@prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#>.
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>.
+@prefix ont: <http://example.org/ontology#>.
+@prefix qb: <http://purl.org/linked-data/cube#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#>.
+@prefix res: <http://example.org/resources/>.
+@prefix popul: <http://example.org/resources/population/>.
+@prefix n0: <https://kristyna.lhotanova.com/#>.
+@prefix git: <https://github.com/>.
+
+ont:county
+    a qb:DimensionProperty, rdf:Property;
+    qb:concept sdmx-concept:refArea;
+    rdfs:range ont:County;
+    rdfs:subPropertyOf sdmx-dimension:refArea;
+    skos:prefLabel "County"@en, "Okres"@cs.
+ont:County
+    a rdfs:Class;
+    rdfs:subClassOf dbo:Region;
+    skos:prefLabel "County"@en, "Okres"@cs.
+ont:meanPopulation
+    a qb:MeasureProperty, rdf:Property;
+    rdfs:range xsd:integer;
+    rdfs:subPropertyOf sdmx-measure:obsValue;
+    skos:prefLabel "Mean population"@en, "Střední stav obyvatel"@cs.
+ont:populationDataset
+    a qb:DataSet;
+    qb:structure ont:populationStructure;
+    skos:prefLabel "Obyvatelé okresy 2021"@cs, "Population 2021"@en.
+ont:populationStructure
+    a qb:DataStructureDefinition;
+    qb:component
+        [ qb:dimension ont:county ], [ qb:dimension ont:region ],
+        [ qb:measure ont:meanPopulation ];
+    skos:prefLabel "Structure of Czech population in 2021"@en.
+ont:region
+    a qb:DimensionProperty, rdf:Property;
+    qb:concept sdmx-concept:refArea;
+    rdfs:range ont:Region;
+    rdfs:subPropertyOf sdmx-dimension:refArea;
+    skos:prefLabel "Kraj"@cs, "Region"@en.
+ont:Region
+a rdfs:Class; rdfs:subClassOf dbo:Region; skos:prefLabel "Kraj"@cs, "Region"@en.
+res:CZ020
+    a ont:Region, skos:Concept;
+    skos:narrower
+        res:CZ0201, res:CZ0202, res:CZ0203, res:CZ0204, res:CZ0205, res:CZ0206,
+        res:CZ0207, res:CZ0208, res:CZ0209, res:CZ020A, res:CZ020B, res:CZ020C.
+res:CZ0201
+    a ont:County, skos:Concept;
+    dbo:originalName "Benešov"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Benešov"@cs.
+res:CZ0202
+    a ont:County, skos:Concept;
+    dbo:originalName "Beroun"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Beroun"@cs.
+res:CZ0203
+    a ont:County, skos:Concept;
+    dbo:originalName "Kladno"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Kladno"@cs.
+res:CZ0204
+    a ont:County, skos:Concept;
+    dbo:originalName "Kolín"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Kolín"@cs.
+res:CZ0205
+    a ont:County, skos:Concept;
+    dbo:originalName "Kutná Hora"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Kutná Hora"@cs.
+res:CZ0206
+    a ont:County, skos:Concept;
+    dbo:originalName "Mělník"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Mělník"@cs.
+res:CZ0207
+    a ont:County, skos:Concept;
+    dbo:originalName "Mladá Boleslav"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Mladá Boleslav"@cs.
+res:CZ0208
+    a ont:County, skos:Concept;
+    dbo:originalName "Nymburk"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Nymburk"@cs.
+res:CZ0209
+    a ont:County, skos:Concept;
+    dbo:originalName "Praha-východ"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Praha-východ"@cs.
+res:CZ020A
+    a ont:County, skos:Concept;
+    dbo:originalName "Praha-západ"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Praha-západ"@cs.
+res:CZ020B
+    a ont:County, skos:Concept;
+    dbo:originalName "Příbram"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Příbram"@cs.
+res:CZ020C
+    a ont:County, skos:Concept;
+    dbo:originalName "Rakovník"@cs;
+    skos:broader res:CZ020;
+    skos:prefLabel "Rakovník"@cs.
+res:CZ031
+    a ont:Region, skos:Concept;
+    skos:narrower
+        res:CZ0311, res:CZ0312, res:CZ0313, res:CZ0314, res:CZ0315, res:CZ0316,
+        res:CZ0317 .
+res:CZ0311
+    a ont:County, skos:Concept;
+    dbo:originalName "České Budějovice"@cs;
+    skos:broader res:CZ031;
+    skos:prefLabel "České Budějovice"@cs.
+res:CZ0312
+    a ont:County, skos:Concept;
+    dbo:originalName "Český Krumlov"@cs;
+    skos:broader res:CZ031;
+    skos:prefLabel "Český Krumlov"@cs.
+res:CZ0313
+    a ont:County, skos:Concept;
+    dbo:originalName "Jindřichův Hradec"@cs;
+    skos:broader res:CZ031;
+    skos:prefLabel "Jindřichův Hradec"@cs.
+res:CZ0314
+    a ont:County, skos:Concept;
+    dbo:originalName "Písek"@cs;
+    skos:broader res:CZ031;
+    skos:prefLabel "Písek"@cs.
+res:CZ0315
+    a ont:County, skos:Concept;
+    dbo:originalName "Prachatice"@cs;
+    skos:broader res:CZ031;
+    skos:prefLabel "Prachatice"@cs.
+res:CZ0316
+    a ont:County, skos:Concept;
+    dbo:originalName "Strakonice"@cs;
+    skos:broader res:CZ031;
+    skos:prefLabel "Strakonice"@cs.
+res:CZ0317
+    a ont:County, skos:Concept;
+    dbo:originalName "Tábor"@cs;
+    skos:broader res:CZ031;
+    skos:prefLabel "Tábor"@cs.
+res:CZ032
+    a ont:Region, skos:Concept;
+    skos:narrower
+        res:CZ0321, res:CZ0322, res:CZ0323, res:CZ0324, res:CZ0325, res:CZ0326,
+        res:CZ0327 .
+res:CZ0321
+    a ont:County, skos:Concept;
+    dbo:originalName "Domažlice"@cs;
+    skos:broader res:CZ032;
+    skos:prefLabel "Domažlice"@cs.
+res:CZ0322
+    a ont:County, skos:Concept;
+    dbo:originalName "Klatovy"@cs;
+    skos:broader res:CZ032;
+    skos:prefLabel "Klatovy"@cs.
+res:CZ0323
+    a ont:County, skos:Concept;
+    dbo:originalName "Plzeň-město"@cs;
+    skos:broader res:CZ032;
+    skos:prefLabel "Plzeň-město"@cs.
+res:CZ0324
+    a ont:County, skos:Concept;
+    dbo:originalName "Plzeň-jih"@cs;
+    skos:broader res:CZ032;
+    skos:prefLabel "Plzeň-jih"@cs.
+res:CZ0325
+    a ont:County, skos:Concept;
+    dbo:originalName "Plzeň-sever"@cs;
+    skos:broader res:CZ032;
+    skos:prefLabel "Plzeň-sever"@cs.
+res:CZ0326
+    a ont:County, skos:Concept;
+    dbo:originalName "Rokycany"@cs;
+    skos:broader res:CZ032;
+    skos:prefLabel "Rokycany"@cs.
+res:CZ0327
+    a ont:County, skos:Concept;
+    dbo:originalName "Tachov"@cs;
+    skos:broader res:CZ032;
+    skos:prefLabel "Tachov"@cs.
+res:CZ041
+a ont:Region, skos:Concept; skos:narrower res:CZ0411, res:CZ0412, res:CZ0413 .
+res:CZ0411
+    a ont:County, skos:Concept;
+    dbo:originalName "Cheb"@cs;
+    skos:broader res:CZ041;
+    skos:prefLabel "Cheb"@cs.
+res:CZ0412
+    a ont:County, skos:Concept;
+    dbo:originalName "Karlovy Vary"@cs;
+    skos:broader res:CZ041;
+    skos:prefLabel "Karlovy Vary"@cs.
+res:CZ0413
+    a ont:County, skos:Concept;
+    dbo:originalName "Sokolov"@cs;
+    skos:broader res:CZ041;
+    skos:prefLabel "Sokolov"@cs.
+res:CZ042
+    a ont:Region, skos:Concept;
+    skos:narrower
+        res:CZ0421, res:CZ0422, res:CZ0423, res:CZ0424, res:CZ0425, res:CZ0426,
+        res:CZ0427 .
+res:CZ0421
+    a ont:County, skos:Concept;
+    dbo:originalName "Děčín"@cs;
+    skos:broader res:CZ042;
+    skos:prefLabel "Děčín"@cs.
+res:CZ0422
+    a ont:County, skos:Concept;
+    dbo:originalName "Chomutov"@cs;
+    skos:broader res:CZ042;
+    skos:prefLabel "Chomutov"@cs.
+res:CZ0423
+    a ont:County, skos:Concept;
+    dbo:originalName "Litoměřice"@cs;
+    skos:broader res:CZ042;
+    skos:prefLabel "Litoměřice"@cs.
+res:CZ0424
+    a ont:County, skos:Concept;
+    dbo:originalName "Louny"@cs;
+    skos:broader res:CZ042;
+    skos:prefLabel "Louny"@cs.
+res:CZ0425
+    a ont:County, skos:Concept;
+    dbo:originalName "Most"@cs;
+    skos:broader res:CZ042;
+    skos:prefLabel "Most"@cs.
+res:CZ0426
+    a ont:County, skos:Concept;
+    dbo:originalName "Teplice"@cs;
+    skos:broader res:CZ042;
+    skos:prefLabel "Teplice"@cs.
+res:CZ0427
+    a ont:County, skos:Concept;
+    dbo:originalName "Ústí nad Labem"@cs;
+    skos:broader res:CZ042;
+    skos:prefLabel "Ústí nad Labem"@cs.
+res:CZ051
+    a ont:Region, skos:Concept;
+    skos:narrower res:CZ0511, res:CZ0512, res:CZ0513, res:CZ0514 .
+res:CZ0511
+    a ont:County, skos:Concept;
+    dbo:originalName "Česká Lípa"@cs;
+    skos:broader res:CZ051;
+    skos:prefLabel "Česká Lípa"@cs.
+res:CZ0512
+    a ont:County, skos:Concept;
+    dbo:originalName "Jablonec nad Nisou"@cs;
+    skos:broader res:CZ051;
+    skos:prefLabel "Jablonec nad Nisou"@cs.
+res:CZ0513
+    a ont:County, skos:Concept;
+    dbo:originalName "Liberec"@cs;
+    skos:broader res:CZ051;
+    skos:prefLabel "Liberec"@cs.
+res:CZ0514
+    a ont:County, skos:Concept;
+    dbo:originalName "Semily"@cs;
+    skos:broader res:CZ051;
+    skos:prefLabel "Semily"@cs.
+res:CZ052
+    a ont:Region, skos:Concept;
+    skos:narrower res:CZ0521, res:CZ0522, res:CZ0523, res:CZ0524, res:CZ0525 .
+res:CZ0521
+    a ont:County, skos:Concept;
+    dbo:originalName "Hradec Králové"@cs;
+    skos:broader res:CZ052;
+    skos:prefLabel "Hradec Králové"@cs.
+res:CZ0522
+    a ont:County, skos:Concept;
+    dbo:originalName "Jičín"@cs;
+    skos:broader res:CZ052;
+    skos:prefLabel "Jičín"@cs.
+res:CZ0523
+    a ont:County, skos:Concept;
+    dbo:originalName "Náchod"@cs;
+    skos:broader res:CZ052;
+    skos:prefLabel "Náchod"@cs.
+res:CZ0524
+    a ont:County, skos:Concept;
+    dbo:originalName "Rychnov nad Kněžnou"@cs;
+    skos:broader res:CZ052;
+    skos:prefLabel "Rychnov nad Kněžnou"@cs.
+res:CZ0525
+    a ont:County, skos:Concept;
+    dbo:originalName "Trutnov"@cs;
+    skos:broader res:CZ052;
+    skos:prefLabel "Trutnov"@cs.
+res:CZ053
+    a ont:Region, skos:Concept;
+    skos:narrower res:CZ0531, res:CZ0532, res:CZ0533, res:CZ0534 .
+res:CZ0531
+    a ont:County, skos:Concept;
+    dbo:originalName "Chrudim"@cs;
+    skos:broader res:CZ053;
+    skos:prefLabel "Chrudim"@cs.
+res:CZ0532
+    a ont:County, skos:Concept;
+    dbo:originalName "Pardubice"@cs;
+    skos:broader res:CZ053;
+    skos:prefLabel "Pardubice"@cs.
+res:CZ0533
+    a ont:County, skos:Concept;
+    dbo:originalName "Svitavy"@cs;
+    skos:broader res:CZ053;
+    skos:prefLabel "Svitavy"@cs.
+res:CZ0534
+    a ont:County, skos:Concept;
+    dbo:originalName "Ústí nad Orlicí"@cs;
+    skos:broader res:CZ053;
+    skos:prefLabel "Ústí nad Orlicí"@cs.
+res:CZ063
+    a ont:Region, skos:Concept;
+    skos:narrower res:CZ0631, res:CZ0632, res:CZ0633, res:CZ0634, res:CZ0635 .
+res:CZ0631
+    a ont:County, skos:Concept;
+    dbo:originalName "Havlíčkův Brod"@cs;
+    skos:broader res:CZ063;
+    skos:prefLabel "Havlíčkův Brod"@cs.
+res:CZ0632
+    a ont:County, skos:Concept;
+    dbo:originalName "Jihlava"@cs;
+    skos:broader res:CZ063;
+    skos:prefLabel "Jihlava"@cs.
+res:CZ0633
+    a ont:County, skos:Concept;
+    dbo:originalName "Pelhřimov"@cs;
+    skos:broader res:CZ063;
+    skos:prefLabel "Pelhřimov"@cs.
+res:CZ0634
+    a ont:County, skos:Concept;
+    dbo:originalName "Třebíč"@cs;
+    skos:broader res:CZ063;
+    skos:prefLabel "Třebíč"@cs.
+res:CZ0635
+    a ont:County, skos:Concept;
+    dbo:originalName "Žďár nad Sázavou"@cs;
+    skos:broader res:CZ063;
+    skos:prefLabel "Žďár nad Sázavou"@cs.
+res:CZ064
+    a ont:Region, skos:Concept;
+    skos:narrower
+        res:CZ0641, res:CZ0642, res:CZ0643, res:CZ0644, res:CZ0645, res:CZ0646,
+        res:CZ0647 .
+res:CZ0641
+    a ont:County, skos:Concept;
+    dbo:originalName "Blansko"@cs;
+    skos:broader res:CZ064;
+    skos:prefLabel "Blansko"@cs.
+res:CZ0642
+    a ont:County, skos:Concept;
+    dbo:originalName "Brno-město"@cs;
+    skos:broader res:CZ064;
+    skos:prefLabel "Brno-město"@cs.
+res:CZ0643
+    a ont:County, skos:Concept;
+    dbo:originalName "Brno-venkov"@cs;
+    skos:broader res:CZ064;
+    skos:prefLabel "Brno-venkov"@cs.
+res:CZ0644
+    a ont:County, skos:Concept;
+    dbo:originalName "Břeclav"@cs;
+    skos:broader res:CZ064;
+    skos:prefLabel "Břeclav"@cs.
+res:CZ0645
+    a ont:County, skos:Concept;
+    dbo:originalName "Hodonín"@cs;
+    skos:broader res:CZ064;
+    skos:prefLabel "Hodonín"@cs.
+res:CZ0646
+    a ont:County, skos:Concept;
+    dbo:originalName "Vyškov"@cs;
+    skos:broader res:CZ064;
+    skos:prefLabel "Vyškov"@cs.
+res:CZ0647
+    a ont:County, skos:Concept;
+    dbo:originalName "Znojmo"@cs;
+    skos:broader res:CZ064;
+    skos:prefLabel "Znojmo"@cs.
+res:CZ071
+    a ont:Region, skos:Concept;
+    skos:narrower res:CZ0711, res:CZ0712, res:CZ0713, res:CZ0714, res:CZ0715 .
+res:CZ0711
+    a ont:County, skos:Concept;
+    dbo:originalName "Jeseník"@cs;
+    skos:broader res:CZ071;
+    skos:prefLabel "Jeseník"@cs.
+res:CZ0712
+    a ont:County, skos:Concept;
+    dbo:originalName "Olomouc"@cs;
+    skos:broader res:CZ071;
+    skos:prefLabel "Olomouc"@cs.
+res:CZ0713
+    a ont:County, skos:Concept;
+    dbo:originalName "Prostějov"@cs;
+    skos:broader res:CZ071;
+    skos:prefLabel "Prostějov"@cs.
+res:CZ0714
+    a ont:County, skos:Concept;
+    dbo:originalName "Přerov"@cs;
+    skos:broader res:CZ071;
+    skos:prefLabel "Přerov"@cs.
+res:CZ0715
+    a ont:County, skos:Concept;
+    dbo:originalName "Šumperk"@cs;
+    skos:broader res:CZ071;
+    skos:prefLabel "Šumperk"@cs.
+res:CZ072
+    a ont:Region, skos:Concept;
+    skos:narrower res:CZ0721, res:CZ0722, res:CZ0723, res:CZ0724 .
+res:CZ0721
+    a ont:County, skos:Concept;
+    dbo:originalName "Kroměříž"@cs;
+    skos:broader res:CZ072;
+    skos:prefLabel "Kroměříž"@cs.
+res:CZ0722
+    a ont:County, skos:Concept;
+    dbo:originalName "Uherské Hradiště"@cs;
+    skos:broader res:CZ072;
+    skos:prefLabel "Uherské Hradiště"@cs.
+res:CZ0723
+    a ont:County, skos:Concept;
+    dbo:originalName "Vsetín"@cs;
+    skos:broader res:CZ072;
+    skos:prefLabel "Vsetín"@cs.
+res:CZ0724
+    a ont:County, skos:Concept;
+    dbo:originalName "Zlín"@cs;
+    skos:broader res:CZ072;
+    skos:prefLabel "Zlín"@cs.
+res:CZ080
+    a ont:Region, skos:Concept;
+    skos:narrower
+    res:CZ0801, res:CZ0802, res:CZ0803, res:CZ0804, res:CZ0805, res:CZ0806 .
+res:CZ0801
+    a ont:County, skos:Concept;
+    dbo:originalName "Bruntál"@cs;
+    skos:broader res:CZ080;
+    skos:prefLabel "Bruntál"@cs.
+res:CZ0802
+    a ont:County, skos:Concept;
+    dbo:originalName "Frýdek-Místek"@cs;
+    skos:broader res:CZ080;
+    skos:prefLabel "Frýdek-Místek"@cs.
+res:CZ0803
+    a ont:County, skos:Concept;
+    dbo:originalName "Karviná"@cs;
+    skos:broader res:CZ080;
+    skos:prefLabel "Karviná"@cs.
+res:CZ0804
+    a ont:County, skos:Concept;
+    dbo:originalName "Nový Jičín"@cs;
+    skos:broader res:CZ080;
+    skos:prefLabel "Nový Jičín"@cs.
+res:CZ0805
+    a ont:County, skos:Concept;
+    dbo:originalName "Opava"@cs;
+    skos:broader res:CZ080;
+    skos:prefLabel "Opava"@cs.
+res:CZ0806
+    a ont:County, skos:Concept;
+    dbo:originalName "Ostrava-město"@cs;
+    skos:broader res:CZ080;
+    skos:prefLabel "Ostrava-město"@cs.
+popul:observation-0001
+    a qb:Observation;
+    ont:county res:CZ0427;
+    ont:meanPopulation 116930;
+    ont:region res:CZ042;
+    qb:dataSet ont:populationDataset.
+popul:observation-0002
+    a qb:Observation;
+    ont:county res:CZ0524;
+    ont:meanPopulation 78479;
+    ont:region res:CZ052;
+    qb:dataSet ont:populationDataset.
+popul:observation-0003
+    a qb:Observation;
+    ont:county res:CZ0514;
+    ont:meanPopulation 71593;
+    ont:region res:CZ051;
+    qb:dataSet ont:populationDataset.
+popul:observation-0004
+    a qb:Observation;
+    ont:county res:CZ0522;
+    ont:meanPopulation 78763;
+    ont:region res:CZ052;
+    qb:dataSet ont:populationDataset.
+popul:observation-0005
+    a qb:Observation;
+    ont:county res:CZ0531;
+    ont:meanPopulation 103657;
+    ont:region res:CZ053;
+    qb:dataSet ont:populationDataset.
+popul:observation-0006
+    a qb:Observation;
+    ont:county res:CZ0642;
+    ont:meanPopulation 378424;
+    ont:region res:CZ064;
+    qb:dataSet ont:populationDataset.
+popul:observation-0007
+    a qb:Observation;
+    ont:county res:CZ0644;
+    ont:meanPopulation 114758;
+    ont:region res:CZ064;
+    qb:dataSet ont:populationDataset.
+popul:observation-0008
+    a qb:Observation;
+    ont:county res:CZ0208;
+    ont:meanPopulation 100584;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0009
+    a qb:Observation;
+    ont:county res:CZ0646;
+    ont:meanPopulation 91984;
+    ont:region res:CZ064;
+    qb:dataSet ont:populationDataset.
+popul:observation-0010
+    a qb:Observation;
+    ont:county res:CZ0713;
+    ont:meanPopulation 107697;
+    ont:region res:CZ071;
+    qb:dataSet ont:populationDataset.
+popul:observation-0011
+    a qb:Observation;
+    ont:county res:CZ0714;
+    ont:meanPopulation 126826;
+    ont:region res:CZ071;
+    qb:dataSet ont:populationDataset.
+popul:observation-0012
+    a qb:Observation;
+    ont:county res:CZ0322;
+    ont:meanPopulation 84661;
+    ont:region res:CZ032;
+    qb:dataSet ont:populationDataset.
+popul:observation-0013
+    a qb:Observation;
+    ont:county res:CZ0326;
+    ont:meanPopulation 48587;
+    ont:region res:CZ032;
+    qb:dataSet ont:populationDataset.
+popul:observation-0014
+    a qb:Observation;
+    ont:county res:CZ0411;
+    ont:meanPopulation 88030;
+    ont:region res:CZ041;
+    qb:dataSet ont:populationDataset.
+popul:observation-0015
+    a qb:Observation;
+    ont:county res:CZ0723;
+    ont:meanPopulation 140392;
+    ont:region res:CZ072;
+    qb:dataSet ont:populationDataset.
+popul:observation-0016
+    a qb:Observation;
+    ont:county res:CZ0724;
+    ont:meanPopulation 188947;
+    ont:region res:CZ072;
+    qb:dataSet ont:populationDataset.
+popul:observation-0017
+    a qb:Observation;
+    ont:county res:CZ0206;
+    ont:meanPopulation 108889;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0018
+    a qb:Observation;
+    ont:county res:CZ0209;
+    ont:meanPopulation 186558;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0019
+    a qb:Observation;
+    ont:county res:CZ020C;
+    ont:meanPopulation 54767;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0020
+    a qb:Observation;
+    ont:county res:CZ0314;
+    ont:meanPopulation 70582;
+    ont:region res:CZ031;
+    qb:dataSet ont:populationDataset.
+popul:observation-0021
+    a qb:Observation;
+    ont:county res:CZ0323;
+    ont:meanPopulation 187985;
+    ont:region res:CZ032;
+    qb:dataSet ont:populationDataset.
+popul:observation-0022
+    a qb:Observation;
+    ont:county res:CZ0421;
+    ont:meanPopulation 126492;
+    ont:region res:CZ042;
+    qb:dataSet ont:populationDataset.
+popul:observation-0023
+    a qb:Observation;
+    ont:county res:CZ0521;
+    ont:meanPopulation 162193;
+    ont:region res:CZ052;
+    qb:dataSet ont:populationDataset.
+popul:observation-0024
+    a qb:Observation;
+    ont:county res:CZ0802;
+    ont:meanPopulation 212422;
+    ont:region res:CZ080;
+    qb:dataSet ont:populationDataset.
+popul:observation-0025
+    a qb:Observation;
+    ont:county res:CZ0312;
+    ont:meanPopulation 60033;
+    ont:region res:CZ031;
+    qb:dataSet ont:populationDataset.
+popul:observation-0026
+    a qb:Observation;
+    ont:county res:CZ0325;
+    ont:meanPopulation 80228;
+    ont:region res:CZ032;
+    qb:dataSet ont:populationDataset.
+popul:observation-0027
+    a qb:Observation;
+    ont:county res:CZ0202;
+    ont:meanPopulation 95823;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0028
+    a qb:Observation;
+    ont:county res:CZ0207;
+    ont:meanPopulation 127221;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0029
+    a qb:Observation;
+    ont:county res:CZ0711;
+    ont:meanPopulation 36884;
+    ont:region res:CZ071;
+    qb:dataSet ont:populationDataset.
+popul:observation-0030
+    a qb:Observation;
+    ont:county res:CZ0205;
+    ont:meanPopulation 75402;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0031
+    a qb:Observation;
+    ont:county res:CZ0201;
+    ont:meanPopulation 99008;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0032
+    a qb:Observation;
+    ont:county res:CZ020A;
+    ont:meanPopulation 149990;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0033
+    a qb:Observation;
+    ont:county res:CZ020B;
+    ont:meanPopulation 114060;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0034
+    a qb:Observation;
+    ont:county res:CZ0311;
+    ont:meanPopulation 194994;
+    ont:region res:CZ031;
+    qb:dataSet ont:populationDataset.
+popul:observation-0035
+    a qb:Observation;
+    ont:county res:CZ0315;
+    ont:meanPopulation 50225;
+    ont:region res:CZ031;
+    qb:dataSet ont:populationDataset.
+popul:observation-0036
+    a qb:Observation;
+    ont:county res:CZ0801;
+    ont:meanPopulation 89906;
+    ont:region res:CZ080;
+    qb:dataSet ont:populationDataset.
+popul:observation-0037
+    a qb:Observation;
+    ont:county res:CZ0804;
+    ont:meanPopulation 149907;
+    ont:region res:CZ080;
+    qb:dataSet ont:populationDataset.
+popul:observation-0038
+    a qb:Observation;
+    ont:county res:CZ0806;
+    ont:meanPopulation 312908;
+    ont:region res:CZ080;
+    qb:dataSet ont:populationDataset.
+popul:observation-0039
+    a qb:Observation;
+    ont:county res:CZ0313;
+    ont:meanPopulation 89325;
+    ont:region res:CZ031;
+    qb:dataSet ont:populationDataset.
+popul:observation-0040
+    a qb:Observation;
+    ont:county res:CZ0321;
+    ont:meanPopulation 54313;
+    ont:region res:CZ032;
+    qb:dataSet ont:populationDataset.
+popul:observation-0041
+    a qb:Observation;
+    ont:county res:CZ0412;
+    ont:meanPopulation 110195;
+    ont:region res:CZ041;
+    qb:dataSet ont:populationDataset.
+popul:observation-0042
+    a qb:Observation;
+    ont:county res:CZ0324;
+    ont:meanPopulation 68623;
+    ont:region res:CZ032;
+    qb:dataSet ont:populationDataset.
+popul:observation-0043
+    a qb:Observation;
+    ont:county res:CZ0423;
+    ont:meanPopulation 117473;
+    ont:region res:CZ042;
+    qb:dataSet ont:populationDataset.
+popul:observation-0044
+    a qb:Observation;
+    ont:county res:CZ0426;
+    ont:meanPopulation 124401;
+    ont:region res:CZ042;
+    qb:dataSet ont:populationDataset.
+popul:observation-0045
+    a qb:Observation;
+    ont:county res:CZ0534;
+    ont:meanPopulation 135977;
+    ont:region res:CZ053;
+    qb:dataSet ont:populationDataset.
+popul:observation-0046
+    a qb:Observation;
+    ont:county res:CZ0511;
+    ont:meanPopulation 101997;
+    ont:region res:CZ051;
+    qb:dataSet ont:populationDataset.
+popul:observation-0047
+    a qb:Observation;
+    ont:county res:CZ0513;
+    ont:meanPopulation 173337;
+    ont:region res:CZ051;
+    qb:dataSet ont:populationDataset.
+popul:observation-0048
+    a qb:Observation;
+    ont:county res:CZ0523;
+    ont:meanPopulation 108092;
+    ont:region res:CZ052;
+    qb:dataSet ont:populationDataset.
+popul:observation-0049
+    a qb:Observation;
+    ont:county res:CZ0525;
+    ont:meanPopulation 115365;
+    ont:region res:CZ052;
+    qb:dataSet ont:populationDataset.
+popul:observation-0050
+    a qb:Observation;
+    ont:county res:CZ0647;
+    ont:meanPopulation 113389;
+    ont:region res:CZ064;
+    qb:dataSet ont:populationDataset.
+popul:observation-0051
+    a qb:Observation;
+    ont:county res:CZ0631;
+    ont:meanPopulation 93521;
+    ont:region res:CZ063;
+    qb:dataSet ont:populationDataset.
+popul:observation-0052
+    a qb:Observation;
+    ont:county res:CZ0532;
+    ont:meanPopulation 171461;
+    ont:region res:CZ053;
+    qb:dataSet ont:populationDataset.
+popul:observation-0053
+    a qb:Observation;
+    ont:county res:CZ0634;
+    ont:meanPopulation 109373;
+    ont:region res:CZ063;
+    qb:dataSet ont:populationDataset.
+popul:observation-0054
+    a qb:Observation;
+    ont:county res:CZ0715;
+    ont:meanPopulation 118618;
+    ont:region res:CZ071;
+    qb:dataSet ont:populationDataset.
+popul:observation-0055
+    a qb:Observation;
+    ont:county res:CZ0204;
+    ont:meanPopulation 103345;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0056
+    a qb:Observation;
+    ont:county res:CZ0633;
+    ont:meanPopulation 71457;
+    ont:region res:CZ063;
+    qb:dataSet ont:populationDataset.
+popul:observation-0057
+    a qb:Observation;
+    ont:county res:CZ0635;
+    ont:meanPopulation 117181;
+    ont:region res:CZ063;
+    qb:dataSet ont:populationDataset.
+popul:observation-0058
+    a qb:Observation;
+    ont:county res:CZ0641;
+    ont:meanPopulation 107795;
+    ont:region res:CZ064;
+    qb:dataSet ont:populationDataset.
+popul:observation-0059
+    a qb:Observation;
+    ont:county res:CZ0645;
+    ont:meanPopulation 151344;
+    ont:region res:CZ064;
+    qb:dataSet ont:populationDataset.
+popul:observation-0060
+    a qb:Observation;
+    ont:county res:CZ0533;
+    ont:meanPopulation 102799;
+    ont:region res:CZ053;
+    qb:dataSet ont:populationDataset.
+popul:observation-0061
+    a qb:Observation;
+    ont:county res:CZ0632;
+    ont:meanPopulation 112206;
+    ont:region res:CZ063;
+    qb:dataSet ont:populationDataset.
+popul:observation-0062
+    a qb:Observation;
+    ont:county res:CZ0643;
+    ont:meanPopulation 224794;
+    ont:region res:CZ064;
+    qb:dataSet ont:populationDataset.
+popul:observation-0063
+    a qb:Observation;
+    ont:county res:CZ0722;
+    ont:meanPopulation 139922;
+    ont:region res:CZ072;
+    qb:dataSet ont:populationDataset.
+popul:observation-0064
+    a qb:Observation;
+    ont:county res:CZ0803;
+    ont:meanPopulation 241184;
+    ont:region res:CZ080;
+    qb:dataSet ont:populationDataset.
+popul:observation-0065
+    a qb:Observation;
+    ont:county res:CZ0316;
+    ont:meanPopulation 69794;
+    ont:region res:CZ031;
+    qb:dataSet ont:populationDataset.
+popul:observation-0066
+    a qb:Observation;
+    ont:county res:CZ0712;
+    ont:meanPopulation 233661;
+    ont:region res:CZ071;
+    qb:dataSet ont:populationDataset.
+popul:observation-0067
+    a qb:Observation;
+    ont:county res:CZ0721;
+    ont:meanPopulation 103753;
+    ont:region res:CZ072;
+    qb:dataSet ont:populationDataset.
+popul:observation-0068
+    a qb:Observation;
+    ont:county res:CZ0805;
+    ont:meanPopulation 173853;
+    ont:region res:CZ080;
+    qb:dataSet ont:populationDataset.
+popul:observation-0069
+    a qb:Observation;
+    ont:county res:CZ0203;
+    ont:meanPopulation 164359;
+    ont:region res:CZ020;
+    qb:dataSet ont:populationDataset.
+popul:observation-0070
+    a qb:Observation;
+    ont:county res:CZ0413;
+    ont:meanPopulation 85452;
+    ont:region res:CZ041;
+    qb:dataSet ont:populationDataset.
+popul:observation-0071
+    a qb:Observation;
+    ont:county res:CZ0422;
+    ont:meanPopulation 121643;
+    ont:region res:CZ042;
+    qb:dataSet ont:populationDataset.
+popul:observation-0072
+    a qb:Observation;
+    ont:county res:CZ0425;
+    ont:meanPopulation 107090;
+    ont:region res:CZ042;
+    qb:dataSet ont:populationDataset.
+popul:observation-0073
+    a qb:Observation;
+    ont:county res:CZ0317;
+    ont:meanPopulation 101333;
+    ont:region res:CZ031;
+    qb:dataSet ont:populationDataset.
+popul:observation-0074
+    a qb:Observation;
+    ont:county res:CZ0512;
+    ont:meanPopulation 90204;
+    ont:region res:CZ051;
+    qb:dataSet ont:populationDataset.
+popul:observation-0075
+    a qb:Observation;
+    ont:county res:CZ0327;
+    ont:meanPopulation 52793;
+    ont:region res:CZ032;
+    qb:dataSet ont:populationDataset.
+popul:observation-0076
+    a qb:Observation;
+    ont:county res:CZ0424;
+    ont:meanPopulation 85466;
+    ont:region res:CZ042;
+    qb:dataSet ont:populationDataset.
+n0:me
+    a foaf:Person;
+    foaf:familyName "Lhoťanová"@cs;
+    foaf:givenName "Kristýna"@cs;
+    foaf:homepage git:lhotanok.
