@@ -28,8 +28,8 @@ meta:careProvidersDataset a dcat:Dataset ;
   dcat:license <https://creativecommons.org/licenses/by/4.0/> .
 
 <http://example.org/resource/dataset/care-providers/distribution/rdf> a dcat:Distribution ;
-  dcat:accessURL <http://example.org/download/care-providers.ttl> ;
-  dcat:downloadURL <http://example.org/download/care-providers.ttl> ;
+  dcat:accessURL <https://lhotanok.github.io/data-engineering/care-providers.ttl> ;
+  dcat:downloadURL <https://lhotanok.github.io/data-engineering/care-providers.ttl> ;
   dcat:mediaType <http://www.iana.org/assignments/media-types/text/turtle> ;
   dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> ;
   spdx:checksum meta:checksum .

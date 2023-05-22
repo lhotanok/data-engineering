@@ -27,8 +27,8 @@ meta:populationDataset a dcat:Dataset ;
   dcat:license <https://creativecommons.org/licenses/by/4.0/> .
 
 <http://example.org/resource/dataset/population/distribution/rdf> a dcat:Distribution ;
-  dcat:accessURL <http://example.org/download/population.ttl> ;
-  dcat:downloadURL <http://example.org/download/population.ttl> ;
+  dcat:accessURL <https://lhotanok.github.io/data-engineering/population.ttl> ;
+  dcat:downloadURL <https://lhotanok.github.io/data-engineering/population.ttl> ;
   dcat:mediaType <http://www.iana.org/assignments/media-types/text/turtle> ;
   dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> ;
   spdx:checksum meta:checksum .
