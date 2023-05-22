@@ -1,24 +1,24 @@
 import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import * as $rdf from 'rdflib';
 import * as rdfstore from 'rdfstore';
-import { unraw } from 'unraw';
 import { __dirname } from './constants.js';
 import { loadRdfIntoStore } from './rdf-store.js';
+import { stringifyStore } from './dataset-utils.js';
 
 const mergeDatasets = () => {
     const store  = $rdf.graph();
 
     loadRdfIntoStore(store, `${__dirname}/../output/care-providers.ttl`);
     loadRdfIntoStore(store, `${__dirname}/../output/population.ttl`);
+    loadRdfIntoStore(store, `${__dirname}/../output/care-providers-metadata.ttl`);
+    loadRdfIntoStore(store, `${__dirname}/../output/population-metadata.ttl`);
 
     writeFileSync(
-        `${__dirname}/../output/datasets.ttl`,
-        unraw(
-            $rdf.serialize(null, store, '', 'text/turtle'),
-        ),
+        `${__dirname}/../output/data-catalog.ttl`,
+        stringifyStore(store),
     );
 
-    console.log(`Merged 'care-providers.ttl' and 'population.ttl' to 'datasets.ttl'`);
+    console.log(`Merged 'care-providers.ttl', 'population.ttl' and their metadata to 'data-catalog.ttl'`);
 };
 
 const getValidationQueryFilenames = () => {
@@ -57,7 +57,7 @@ const main = async () => {
 
     new rdfstore.Store((_err, store) => {
         const datasets = readFileSync(
-            `${__dirname}/../output/datasets.ttl`,
+            `${__dirname}/../output/data-catalog.ttl`,
             { encoding: 'utf-8' },
         );
 
