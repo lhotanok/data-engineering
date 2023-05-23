@@ -2,6 +2,7 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix meta: <http://example.org/metadata#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
@@ -19,9 +20,12 @@ ont:populationStructure a qb:DataStructureDefinition ;
   qb:component [ qb:dimension ont:county ; ] ;
   qb:component [ qb:measure ont:meanPopulation ; ] .
 
-ont:populationDataset a qb:DataSet, dcat:Dataset ;
+ont:populationDataset a qb:DataSet;
   skos:prefLabel "Obyvatelé okresy 2021"@cs, "Population 2021"@en ;
-  qb:structure ont:populationStructure ;
+  qb:structure ont:populationStructure .
+
+meta:populationDataset a dcat:Dataset ;
+  skos:prefLabel "Obyvatelé okresy 2021"@cs, "Population 2021"@en ;
   dcat:title "Obyvatelé okresy 2021"@cs, "Population 2021"@en ;
   dcat:keyword "obyvatelstvo"@cs, "okres"@cs, "střední stav obyvatel"@cs, "population"@en, "county"@en, "mean population"@en ;
   dcat:creator <https://kristyna.lhotanova.com/#me> ;

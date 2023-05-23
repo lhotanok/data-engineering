@@ -4,6 +4,7 @@
 @prefix qb: <http://purl.org/linked-data/cube#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix meta: <http://example.org/metadata#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#> .
 @prefix lang: <http://id.loc.gov/vocabulary/iso639-1/> .
@@ -24,9 +25,12 @@ ont:careProvidersStructure a qb:DataStructureDefinition ;
   qb:component [ qb:dimension ont:fieldOfCare ; ] ;
   qb:component [ qb:measure ont:careProvidersCount ; ] .
 
-ont:careProvidersDataset a qb:DataSet, dcat:Dataset ;
+ont:careProvidersDataset a qb:DataSet ;
   skos:prefLabel "Poskytovatelé zdravotních služeb"@cs, "Care providers"@en ;
-  qb:structure ont:careProvidersStructure ;
+  qb:structure ont:careProvidersStructure .
+
+meta:careProvidersDataset a dcat:Dataset ;
+  skos:prefLabel "Poskytovatelé zdravotních služeb"@cs, "Care providers"@en ;
   dcat:title "Poskytovatelé zdravotních služeb"@cs, "Care providers"@en ;
   dcat:keyword "zdravotní péče"@cs, "poskytovatel"@cs, "health care"@en, "provider"@en ;
   dcat:creator <https://kristyna.lhotanova.com/#me> ;
